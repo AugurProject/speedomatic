@@ -36,7 +36,7 @@ var encoded = augur_abi.encode({
 // encoded:
 '0x6ffa1caa0000000000000000000000000000000000000000000000000000000000000003'
 ```
-`encoded` is `0x6ffa1caa0000000000000000000000000000000000000000000000000000000000000003`.  This is the concatenation of the method's prefix `0x6ffa1caa`, which is derived from the name of the method `"double"` and its signature `"i"`, and the encoded parameter value, `[3]`.
+`encoded` is the concatenation of the method's prefix `0x6ffa1caa`, which is derived from the name of the method `"double"` and its signature `"i"`, and the encoded parameter value, `[3]`.
 
 "Signature" refers to the short-form Serpent parameter signature, which allows `i` (int256), `a` (variable-sized int256 array) and `s` (variable-length string/bytes).  For example, a method which takes parameter types int256, string, int256, int256, int256, array would have signature `isiiia`.
 
