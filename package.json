@@ -1,0 +1,40 @@
+{
+  "name": "augur-abi",
+  "version": "0.1.0",
+  "description": "Contract ABI serialization",
+  "main": "index.js",
+  "directories": {
+    "test": "test",
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "mocha test/*",
+    "lint": "jshint index.js && jshint test",
+    "coverage": "istanbul cover -x **/lib/** ./node_modules/mocha/bin/_mocha test/abi.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AugurProject/augur-abi.git"
+  },
+  "author": "Jack Peterson <jack@tinybike.net>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AugurProject/augur-abi/issues"
+  },
+  "homepage": "https://github.com/AugurProject/augur-abi#readme",
+  "dependencies": {
+    "bignumber.js": "^2.0.7",
+    "js-sha3": "^0.3.1"
+  },
+  "devDependencies": {
+    "browserify": "^11.0.1",
+    "chai": "^3.2.0",
+    "coveralls": "^2.11.4",
+    "del": "^1.2.1",
+    "gulp": "^3.9.0",
+    "istanbul": "^0.3.18",
+    "it-each": "^0.3.1",
+    "mocha": "^2.2.5",
+    "uglify-js": "^2.4.24"
+  }
+}
