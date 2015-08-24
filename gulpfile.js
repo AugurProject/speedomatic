@@ -4,7 +4,6 @@ var path = require("path");
 var cp = require("child_process");
 var gulp = require("gulp");
 var del = require("del");
-var keythereum = require("./");
 
 gulp.task("clean", function (callback) {
     del([path.join("dist", "*.js")], callback);
