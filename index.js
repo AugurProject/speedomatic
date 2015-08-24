@@ -117,6 +117,33 @@ module.exports = {
         return this.prefix_hex(h);
     },
 
+    is_hex: function (str) {
+        if (str && str.constructor === String) {
+            if (str.slice(0, 1) === '-' && str.length > 1) {
+                return /^[0-9A-F]+$/i.test(str.slice(1));
+            }
+            return /^[0-9A-F]+$/i.test(str);
+        }
+        return false;
+    },
+
+    strip_0x: function (str) {
+        var h = str;
+        if (h === "-0x0" || h === "0x0") {
+            return "0";
+        }
+        if (h.slice(0, 2) === "0x" && h.length > 2) {
+            h = h.slice(2);
+        } else if (h.slice(0, 3) === "-0x" && h.length > 3) {
+            h = '-' + h.slice(3);
+        }
+        if (this.is_hex(h)) {
+            return h;
+        } else {
+            return str;
+        }
+    },
+
     prefix_hex: function (n) {
         if (n !== undefined && n !== null) {
             if (n.constructor === Number || n.constructor === BigNumber) {
