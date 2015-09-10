@@ -3,8 +3,7 @@ augur-abi
 
 [![Build Status](https://travis-ci.org/AugurProject/augur-abi.svg)](https://travis-ci.org/AugurProject/augur-abi)
 [![Coverage Status](https://coveralls.io/repos/AugurProject/augur-abi/badge.svg?branch=master&service=github)](https://coveralls.io/github/AugurProject/augur-abi?branch=master)
-
-[![NPM](https://nodei.co/npm/augur-abi.png)](https://nodei.co/npm/augur-abi/)
+[![npm version](https://badge.fury.io/js/augur-abi.svg)](http://badge.fury.io/js/augur-abi)
 
 augur-abi is a standalone JavaScript module that provides Ethereum contract ABI data serialization methods.  [ABI encoding](https://github.com/ethereum/wiki/wiki/Ethereum-Contract-ABI) is needed to invoke functions on Ethereum smart contracts.
 

@@ -164,7 +164,9 @@ module.exports = {
 
     bignum: function (n, encoding, nowrap) {
         var bn, len;
-        if (n !== null && n !== undefined && n !== "0x") {
+        if (n !== null && n !== undefined && n !== "0x" &&
+            !n.error && !n.message)
+        {
             switch (n.constructor) {
                 case Number:
                     if (Math.floor(Math.log(n) / Math.log(10) + 1) <= 15) {
@@ -203,7 +205,8 @@ module.exports = {
                     }
                     break;
                 default:
-                    return n;
+                    console.log("[augur-abi] Couldn't convert", n, "to BigNumber");
+                    return;
             }
             if (bn !== undefined && bn !== null && bn.constructor === BigNumber) {
                 if (!nowrap && bn.gte(this.constants.BYTES_32)) {
@@ -220,14 +223,12 @@ module.exports = {
                 }
             }
             return bn;
-        } else {
-            return n;
         }
     },
 
     fix: function (n, encode) {
         var fixed;
-        if (n && n !== "0x") {
+        if (n && n !== "0x" && !n.error && !n.message) {
             if (encode && n.constructor === String) {
                 encode = encode.toLowerCase();
             }
@@ -265,7 +266,7 @@ module.exports = {
 
     unfix: function (n, encode) {
         var unfixed;
-        if (n && n !== "0x") {
+        if (n && n !== "0x" && !n.error && !n.message) {
             if (encode) encode = encode.toLowerCase();
             if (n.constructor === Array) {
                 var len = n.length;
@@ -279,7 +280,7 @@ module.exports = {
                 } else {
                     unfixed = this.bignum(n).dividedBy(this.constants.ONE);
                 }
-                if (encode) {
+                if (unfixed && encode) {
                     if (encode === "hex") {
                         unfixed = this.prefix_hex(unfixed);
                     } else if (encode === "string") {
