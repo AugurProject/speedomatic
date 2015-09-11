@@ -194,11 +194,7 @@ module.exports = {
                     try {
                         bn = new BigNumber(n);
                     } catch (exc) {
-                        if (n.slice(0, 1) === '-') {
-                            bn = new BigNumber("-0x" + n.slice(1));
-                        } else {
-                            bn = new BigNumber("0x" + n);
-                        }
+                        bn = new BigNumber(this.prefix_hex(n));
                     }
                     break;
                 case BigNumber:
@@ -230,6 +226,8 @@ module.exports = {
                 }
             }
             return bn;
+        } else {
+            return n;
         }
     },
 
