@@ -179,7 +179,10 @@ module.exports = {
                             if (this.is_hex(n)) {
                                 bn = new BigNumber(this.prefix_hex(n));
                             } else {
-                                return console.error(exc);
+                                console.log("Couldn't convert", n, "to BigNumber");
+                                console.error(exc);
+                                console.log(exc.stack);
+                                return n;
                             }
                         }
                     }
@@ -191,7 +194,10 @@ module.exports = {
                         if (this.is_hex(n)) {
                             bn = new BigNumber(this.prefix_hex(n));
                         } else {
-                            return console.error(exc);
+                            console.log("Couldn't convert", n, "to BigNumber");
+                            console.error(exc);
+                            console.log(exc.stack);
+                            return n;
                         }
                     }
                     break;
@@ -206,7 +212,8 @@ module.exports = {
                     }
                     break;
                 default:
-                    return console.error("Couldn't convert", n, "to BigNumber");
+                    console.log("Couldn't convert", n, "to BigNumber");
+                    return n;
             }
             if (bn !== undefined && bn !== null && bn.constructor === BigNumber) {
                 if (!nowrap && bn.gte(this.constants.BYTES_32)) {
