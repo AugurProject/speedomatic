@@ -184,9 +184,9 @@ module.exports = {
                             bn = new BigNumber(n);
                         } catch (exc) {
                             if (this.is_hex(n)) {
-                                bn = new BigNumber(this.prefix_hex(n));
+                                bn = new BigNumber(n, 16);
                             } else {
-                                console.log("Couldn't convert", n, "to BigNumber");
+                                console.log("Couldn't convert", typeof n, n, "to BigNumber");
                                 console.error(exc);
                                 console.log(exc.stack);
                                 return n;
@@ -199,9 +199,9 @@ module.exports = {
                         bn = new BigNumber(n);
                     } catch (exc) {
                         if (this.is_hex(n)) {
-                            bn = new BigNumber(this.prefix_hex(n));
+                            bn = new BigNumber(n, 16);
                         } else {
-                            console.log("Couldn't convert", n, "to BigNumber");
+                            console.log("Couldn't convert", typeof n, n, "to BigNumber");
                             console.error(exc);
                             console.log(exc.stack);
                             return n;
@@ -219,7 +219,7 @@ module.exports = {
                     }
                     break;
                 default:
-                    console.log("Couldn't convert", n, "to BigNumber");
+                    console.log("Couldn't convert", typeof n, n, "to BigNumber");
                     return n;
             }
             if (bn !== undefined && bn !== null && bn.constructor === BigNumber) {
