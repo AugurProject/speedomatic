@@ -245,6 +245,65 @@ describe("strip_0x", function () {
     });
 });
 
+describe("format_address", function () {
+
+    var test = function (t) {
+        it(t.address + " -> " + t.expected, function () {
+            assert.strictEqual(abi.format_address(t.address), t.expected);
+        });
+    };
+
+    test({
+        address: "0x000000000000000000000000639b41c4d3d399894f2a57894278e1653e7cd24c",
+        expected: "0x639b41c4d3d399894f2a57894278e1653e7cd24c"
+    });
+    test({
+        address: "0x000000000000000000000000039b41c4d3d399894f2a57894278e1653e7cd24c",
+        expected: "0x039b41c4d3d399894f2a57894278e1653e7cd24c"
+    });
+    test({
+        address: "0x000000000000000000000000009b41c4d3d399894f2a57894278e1653e7cd24c",
+        expected: "0x009b41c4d3d399894f2a57894278e1653e7cd24c"
+    });
+    test({
+        address: "0x000000000000000000000000000b41c4d3d399894f2a57894278e1653e7cd24c",
+        expected: "0x000b41c4d3d399894f2a57894278e1653e7cd24c"
+    });
+    test({
+        address: "0x000000000000000000000000639b41c4d3d399894f2a57894278e1653e7cd000",
+        expected: "0x639b41c4d3d399894f2a57894278e1653e7cd000"
+    });
+    test({
+        address: "0x000000000000000000000000009b41c4d3d399894f2a57894278e1653e7cd240",
+        expected: "0x009b41c4d3d399894f2a57894278e1653e7cd240"
+    });
+    test({
+        address: "0x0000000000000000000000000000000000000000000000000000000000000000",
+        expected: "0x0000000000000000000000000000000000000000"
+    });
+    test({
+        address: "0x0000000000000000000000000000000000000000000000000000000000000001",
+        expected: "0x0000000000000000000000000000000000000001"
+    });
+    test({
+        address: "0x0000000000000000000000000000000000000000000000000000010000000000",
+        expected: "0x0000000000000000000000000000010000000000"
+    });
+    test({
+        address: "0x10000000000",
+        expected: "0x0000000000000000000000000000010000000000"
+    });
+    test({
+        address: "0x1",
+        expected: "0x0000000000000000000000000000000000000001"
+    });
+    test({
+        address: "0x000000000000000000000000b41c4d3d399894f2a57894278e1653e7cd24c",
+        expected: "0x000b41c4d3d399894f2a57894278e1653e7cd24c"
+    });
+
+});
+
 describe("Fixed point tests", function () {
 
     var ex_integer = 12345678901;
