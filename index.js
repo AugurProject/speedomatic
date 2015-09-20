@@ -71,6 +71,9 @@ module.exports = {
     // convert bytes to hex
     encode_hex: function (str) {
         var hexbyte, hex = '';
+        if (str && str.constructor === Object || str.constructor === Array) {
+            str = JSON.stringify(str);
+        }
         for (var i = 0, len = str.length; i < len; ++i) {
             hexbyte = str.charCodeAt(i).toString(16);
             if (hexbyte.length === 1) hexbyte = "0" + hexbyte;
@@ -87,7 +90,7 @@ module.exports = {
                     h = this.encode_hex(JSON.stringify(n));
                     break;
                 case Array:
-                    h = this.encode_hex(JSON.stringify(n));
+                    h = this.bignum(n, "hex");
                     break;
                 case BigNumber:
                     h = n.toString(16);
