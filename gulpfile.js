@@ -10,7 +10,14 @@ gulp.task("clean", function (callback) {
 });
 
 gulp.task("lint", function (callback) {
-    cp.exec("jshint index.js && jshint test", function (err, stdout) {
+    cp.exec("npm run lint", function (err, stdout) {
+        if (err) if (stdout) process.stdout.write(stdout);
+        callback(err);
+    });
+});
+
+gulp.task("test", function (callback) {
+    cp.exec("npm test", function (err, stdout) {
         if (err) if (stdout) process.stdout.write(stdout);
         callback(err);
     });
@@ -35,4 +42,4 @@ gulp.task("build", function (callback) {
     });
 });
 
-gulp.task("default", ["lint", "build"]);
+gulp.task("default", ["lint", "test", "build"]);

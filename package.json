@@ -1,6 +1,6 @@
 {
   "name": "augur-abi",
-  "version": "0.1.7",
+  "version": "0.2.0",
   "description": "Contract ABI serialization",
   "main": "index.js",
   "directories": {
@@ -9,7 +9,7 @@
   },
   "scripts": {
     "test": "mocha test/*.js",
-    "lint": "jshint index.js && jshint test",
+    "lint": "jshint index.js",
     "coverage": "istanbul cover -x **/lib/** ./node_modules/mocha/bin/_mocha test/*.js"
   },
   "repository": {

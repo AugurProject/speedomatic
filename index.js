@@ -228,7 +228,7 @@ module.exports = {
                     } catch (ex) {
                         try {
                             bn = new BigNumber(n, 16);
-                        } catch (exc) {                    
+                        } catch (exc) {
                             console.log("Couldn't convert", n.toString(), "to BigNumber");
                             console.error(ex);
                             console.error(exc);
@@ -326,6 +326,14 @@ module.exports = {
         } else {
             return n;
         }
+    },
+
+    string: function (n) {
+        return this.bignum(n, "string");
+    },
+
+    number: function (s) {
+        return this.bignum(s, "number");
     },
 
     chunk: function (len) {

@@ -38,7 +38,7 @@ function chunk32(string, stride, offset) {
     }
 }
 
-describe("hex conversion", function () {
+describe("hex: hexadecimal conversion", function () {
 
     // from web3.js toHex tests
     var tests = [
@@ -81,7 +81,7 @@ describe("hex conversion", function () {
     });
 });
 
-describe("is_hex", function () {
+describe("is_hex: test if input is hex", function () {
 
     var test = function (t) {
         it("convert " + t.input + " -> " + t.expected, function () {
@@ -159,7 +159,7 @@ describe("is_hex", function () {
     });
 });
 
-describe("strip_0x", function () {
+describe("strip_0x: remove leading 0x from a hex string", function () {
 
     var test = function (t) {
         it("convert " + t.input + " -> " + t.expected, function () {
@@ -245,7 +245,253 @@ describe("strip_0x", function () {
     });
 });
 
-describe("format_address", function () {
+describe("string: numerical string conversion", function () {
+
+    var test = function (t) {
+        it(t.input + " -> " + t.expected, function () {
+            assert.strictEqual(abi.string(t.input), t.expected);
+        });
+    };
+
+    test({
+        input: 1,
+        expected: "1"
+    });
+    test({
+        input: 100,
+        expected: "100"
+    });
+    test({
+        input: -2,
+        expected: "-2"
+    });
+    test({
+        input: 1010101,
+        expected: "1010101"
+    });
+    test({
+        input: 3.1415,
+        expected: "3.1415"
+    });
+    test({
+        input: .3109513,
+        expected: "0.3109513"
+    });
+    test({
+        input: 0.3109513,
+        expected: "0.3109513"
+    });
+    test({
+        input: 1.0000000000001,
+        expected: "1.0000000000001"
+    });
+    test({
+        input: "1",
+        expected: "1"
+    });
+    test({
+        input: "100",
+        expected: "100"
+    });
+    test({
+        input: "-2",
+        expected: "-2"
+    });
+    test({
+        input: "1010101",
+        expected: "1010101"
+    });
+    test({
+        input: "3.1415",
+        expected: "3.1415"
+    });
+    test({
+        input: ".3109513",
+        expected: "0.3109513"
+    });
+    test({
+        input: "0.3109513",
+        expected: "0.3109513"
+    });
+    test({
+        input: "1.0000000000001",
+        expected: "1.0000000000001"
+    });
+    test({
+        input: "0x1",
+        expected: "1",
+    });
+    test({
+        input: "0x64",
+        expected: "100",
+    });
+    test({
+        input: "-0x2",
+        expected: "-2",
+    });
+    test({
+        input: "0xf69b5",
+        expected: "1010101",
+    });
+    test({
+        input: new BigNumber(1),
+        expected: "1"
+    });
+    test({
+        input: new BigNumber(100),
+        expected: "100"
+    });
+    test({
+        input: new BigNumber("-2"),
+        expected: "-2"
+    });
+    test({
+        input: new BigNumber(1010101),
+        expected: "1010101"
+    });
+    test({
+        input: new BigNumber("3.1415"),
+        expected: "3.1415"
+    });
+    test({
+        input: new BigNumber(".3109513"),
+        expected: "0.3109513"
+    });
+    test({
+        input: new BigNumber("0.3109513"),
+        expected: "0.3109513"
+    });
+    test({
+        input: new BigNumber("1.000000000000000000000000000001"),
+        expected: "1.000000000000000000000000000001"
+    });
+
+});
+
+describe("number: number conversion", function () {
+
+    var test = function (t) {
+        it(t.input + " -> " + t.expected, function () {
+            assert.strictEqual(abi.number(t.input), t.expected);
+        });
+    };
+
+    test({
+        input: 1,
+        expected: 1
+    });
+    test({
+        input: 100,
+        expected: 100
+    });
+    test({
+        input: -2,
+        expected: -2
+    });
+    test({
+        input: 1010101,
+        expected: 1010101
+    });
+    test({
+        input: 3.1415,
+        expected: 3.1415
+    });
+    test({
+        input: .3109513,
+        expected: 0.3109513
+    });
+    test({
+        input: 0.3109513,
+        expected: 0.3109513
+    });
+    test({
+        input: 1.0000000000001,
+        expected: 1.0000000000001
+    });
+    test({
+        input: "1",
+        expected: 1
+    });
+    test({
+        input: "100",
+        expected: 100
+    });
+    test({
+        input: "-2",
+        expected: -2
+    });
+    test({
+        input: "1010101",
+        expected: 1010101
+    });
+    test({
+        input: "3.1415",
+        expected: 3.1415
+    });
+    test({
+        input: ".3109513",
+        expected: 0.3109513
+    });
+    test({
+        input: "0.3109513",
+        expected: 0.3109513
+    });
+    test({
+        input: "1.0000000000001",
+        expected: 1.0000000000001
+    });
+    test({
+        input: "0x1",
+        expected: 1
+    });
+    test({
+        input: "0x64",
+        expected: 100
+    });
+    test({
+        input: "-0x2",
+        expected: -2
+    });
+    test({
+        input: "0xf69b5",
+        expected: 1010101
+    });
+    test({
+        input: new BigNumber(1),
+        expected: 1
+    });
+    test({
+        input: new BigNumber(100),
+        expected: 100
+    });
+    test({
+        input: new BigNumber("-2"),
+        expected: -2
+    });
+    test({
+        input: new BigNumber(1010101),
+        expected: 1010101
+    });
+    test({
+        input: new BigNumber("3.1415"),
+        expected: 3.1415
+    });
+    test({
+        input: new BigNumber(".3109513"),
+        expected: 0.3109513
+    });
+    test({
+        input: new BigNumber("0.3109513"),
+        expected: 0.3109513
+    });
+    test({
+        input: new BigNumber("1.000000000000000000000000000001"),
+        expected: 1.00000000000000000000000000000
+    });
+
+});
+
+describe("format_address: format ethereum address", function () {
 
     var test = function (t) {
         it(t.address + " -> " + t.expected, function () {
