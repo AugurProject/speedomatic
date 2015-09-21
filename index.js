@@ -196,9 +196,7 @@ module.exports = {
                             if (this.is_hex(n)) {
                                 bn = new BigNumber(n, 16);
                             } else {
-                                console.log("Couldn't convert Number", n.toString(), "to BigNumber");
-                                console.error(exc);
-                                console.log(exc.stack);
+                                // console.log("Couldn't convert Number", n.toString(), "to BigNumber");
                                 return n;
                             }
                         }
@@ -211,9 +209,7 @@ module.exports = {
                         if (this.is_hex(n)) {
                             bn = new BigNumber(n, 16);
                         } else {
-                            console.log("Couldn't convert String", n.toString(), "to BigNumber");
-                            console.error(exc);
-                            console.log(exc.stack);
+                            // console.log("Couldn't convert String", n.toString(), "to BigNumber");
                             return n;
                         }
                     }
@@ -232,11 +228,7 @@ module.exports = {
                         try {
                             bn = new BigNumber(n, 16);
                         } catch (exc) {
-                            console.log("Couldn't convert", n.toString(), "to BigNumber");
-                            console.error(ex);
-                            console.error(exc);
-                            console.log(ex.stack);
-                            console.log(exc.stack);
+                            // console.log("Couldn't convert", n.toString(), "to BigNumber");
                             return n;
                         }
                     }
