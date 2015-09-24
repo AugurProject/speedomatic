@@ -67,6 +67,7 @@ describe("hex: hexadecimal conversion", function () {
         { value: "-0x0", expected: "0x0"},
         { value: '{"test": "test"}', expected: "0x7b2274657374223a202274657374227d"},
         { value: {test: "test"}, expected: "0x7b2274657374223a2274657374227d"},
+        { value: "\ttabbity", expected: "0x0974616262697479"},
         { value: "myString", expected: "0x6d79537472696e67"},
         { value: new BigNumber(15), expected: "0xf"},
         { value: true, expected: "0x1"},
@@ -87,6 +88,41 @@ describe("hex: hexadecimal conversion", function () {
             }
         });
     });
+});
+
+describe("zero_prefix", function () {
+
+    var test = function (t) {
+        it("convert " + t.input + " -> " + t.expected, function () {
+            assert.strictEqual(abi.zero_prefix(t.input), t.expected);
+        });
+    };
+
+    test({
+        input: "0x1",
+        expected: "0x01"
+    });
+    test({
+        input: "0x101",
+        expected: "0x0101"
+    });
+    test({
+        input: "0xf69b5",
+        expected: "0x0f69b5"
+    });
+    test({
+        input: "0x01",
+        expected: "0x01"
+    });
+    test({
+        input: "0x0101",
+        expected: "0x0101"
+    });
+    test({
+        input: "0x0f69b5",
+        expected: "0x0f69b5"
+    })
+
 });
 
 describe("is_hex: test if input is hex", function () {

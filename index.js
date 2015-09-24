@@ -159,6 +159,21 @@ module.exports = {
         return str;
     },
 
+    zero_prefix: function (h) {
+        if (h !== undefined && h !== null && h.constructor === String) {
+            h = this.strip_0x(h);
+            if (h.length % 2) h = "0" + h;
+            if (h.slice(0,2) !== "0x" && h.slice(0,3) !== "-0x") {
+                if (h.slice(0,1) === '-') {
+                    h = "-0x" + h.slice(1);
+                } else {
+                    h = "0x" + h;
+                }
+            }
+        }
+        return h;
+    },
+
     prefix_hex: function (n) {
         if (n !== undefined && n !== null) {
             if (n.constructor === Number || n.constructor === BigNumber) {
