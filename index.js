@@ -144,20 +144,19 @@ module.exports = {
     },
 
     strip_0x: function (str) {
-        var h = str;
-        if (h === "-0x0" || h === "0x0") {
-            return "0";
+        if (str && str.constructor === String && str.length >= 2) {
+            var h = str;
+            if (h === "-0x0" || h === "0x0") {
+                return "0";
+            }
+            if (h.slice(0, 2) === "0x" && h.length > 2) {
+                h = h.slice(2);
+            } else if (h.slice(0, 3) === "-0x" && h.length > 3) {
+                h = '-' + h.slice(3);
+            }
+            if (this.is_hex(h)) return h;
         }
-        if (h.slice(0, 2) === "0x" && h.length > 2) {
-            h = h.slice(2);
-        } else if (h.slice(0, 3) === "-0x" && h.length > 3) {
-            h = '-' + h.slice(3);
-        }
-        if (this.is_hex(h)) {
-            return h;
-        } else {
-            return str;
-        }
+        return str;
     },
 
     prefix_hex: function (n) {
