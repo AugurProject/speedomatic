@@ -82,6 +82,18 @@ module.exports = {
         return hex;
     },
 
+    unfork: function (forked) {
+        if (forked !== null && forked !== undefined) {
+            var unforked = this.bignum(forked);
+            var superforked = unforked.plus(this.constants.MOD);
+            if (superforked.gte(this.constants.BYTES_32) && superforked.lt(this.constants.MOD)) {
+                unforked = superforked;
+            }
+            if (forked.constructor === BigNumber) return unforked;
+            return this.pad_left(unforked.toString(16));
+        }
+    },
+
     hex: function (n, nowrap) {
         var h;
         if (n !== undefined && n !== null && n.constructor) {
@@ -93,7 +105,7 @@ module.exports = {
                     h = this.encode_hex(JSON.stringify(n));
                     break;
                 case Array:
-                    h = this.bignum(n, "hex");
+                    h = this.bignum(n, "hex", nowrap);
                     break;
                 case BigNumber:
                     h = n.toString(16);
@@ -117,7 +129,7 @@ module.exports = {
                     h = (n) ? "0x1" : "0x0";
                     break;
                 default:
-                    h = this.bignum(n, "hex");
+                    h = this.bignum(n, "hex", nowrap);
             }
         }
         return this.prefix_hex(h);
@@ -213,7 +225,6 @@ module.exports = {
                             if (this.is_hex(n)) {
                                 bn = new BigNumber(n, 16);
                             } else {
-                                // console.log("Couldn't convert Number", n.toString(), "to BigNumber");
                                 return n;
                             }
                         }
@@ -226,7 +237,6 @@ module.exports = {
                         if (this.is_hex(n)) {
                             bn = new BigNumber(n, 16);
                         } else {
-                            // console.log("Couldn't convert String", n.toString(), "to BigNumber");
                             return n;
                         }
                     }
@@ -245,7 +255,6 @@ module.exports = {
                         try {
                             bn = new BigNumber(n, 16);
                         } catch (exc) {
-                            // console.log("Couldn't convert", n.toString(), "to BigNumber");
                             return n;
                         }
                     }
