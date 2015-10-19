@@ -86,6 +86,9 @@ module.exports = {
         var h;
         if (n !== undefined && n !== null && n.constructor) {
             switch (n.constructor) {
+                case Buffer:
+                    h = n.toString("hex");
+                    break;
                 case Object:
                     h = this.encode_hex(JSON.stringify(n));
                     break;

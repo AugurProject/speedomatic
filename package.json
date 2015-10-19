@@ -1,6 +1,6 @@
 {
   "name": "augur-abi",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Contract ABI serialization",
   "main": "index.js",
   "directories": {
