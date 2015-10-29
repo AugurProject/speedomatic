@@ -82,7 +82,7 @@ module.exports = {
         return hex;
     },
 
-    unfork: function (forked) {
+    unfork: function (forked, prefix) {
         if (forked !== null && forked !== undefined) {
             var unforked = this.bignum(forked);
             var superforked = unforked.plus(this.constants.MOD);
@@ -90,7 +90,9 @@ module.exports = {
                 unforked = superforked;
             }
             if (forked.constructor === BigNumber) return unforked;
-            return this.pad_left(unforked.toString(16));
+            unforked = this.pad_left(unforked.toString(16));
+            if (prefix) unforked = this.prefix_hex(unforked);
+            return unforked;
         }
     },
 
