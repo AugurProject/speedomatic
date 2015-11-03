@@ -367,23 +367,30 @@ module.exports = {
         return this.bignum(s, "number");
     },
 
-    chunk: function (len) {
-        return Math.ceil(len / 64);
+    chunk: function (total_len, chunk_len) {
+        chunk_len = chunk_len || 64;
+        return Math.ceil(total_len / chunk_len);
     },
 
-    pad_right: function (s) {
-        var multipleOf64 = 64 * this.chunk(s.length);
-        while (s.length < multipleOf64) {
+    pad_right: function (s, chunk_len, prefix) {
+        chunk_len = chunk_len || 64;
+        s = this.strip_0x(s);
+        var multiple = chunk_len * this.chunk(s.length, chunk_len);
+        while (s.length < multiple) {
             s += '0';
         }
+        if (prefix) s = this.prefix_hex(s);
         return s;
     },
 
-    pad_left: function (s) {
-        var multipleOf64 = 64 * this.chunk(s.length);
-        while (s.length < multipleOf64) {
+    pad_left: function (s, chunk_len, prefix) {
+        chunk_len = chunk_len || 64;
+        s = this.strip_0x(s);
+        var multiple = chunk_len * this.chunk(s.length, chunk_len);
+        while (s.length < multiple) {
             s = '0' + s;
         }
+        if (prefix) s = this.prefix_hex(s);
         return s;
     },
 
