@@ -21,25 +21,25 @@ function parseHex(param) {
     return new Buffer(param, "hex");
 }
 
-function compare(opts) {
-    var augur_encoded = augur_abi.encode(opts);
-    if (opts.params) {
-        if (opts.params.constructor !== Array) {
-            opts.params = [opts.params];
-        }
-        for (var i = 0; i < opts.params.length; ++i) {
-            if (opts.signature[i] === "a") {
-                for (var j = 0; j < opts.params[i].length; ++j) {
-                    if (isHexString(opts.params[i][j])) {
-                        opts.params[i][j] = parseHex(opts.params[i][j]);
-                    }
+function parseUglyHex(params, signature) {
+    if (params.constructor !== Array) params = [params];
+    for (var i = 0; i < params.length; ++i) {
+        if (signature[i] === "a") {
+            for (var j = 0; j < params[i].length; ++j) {
+                if (isHexString(params[i][j])) {
+                    params[i][j] = parseHex(params[i][j]);
                 }
-            } 
-            if (opts.signature[i] === "i" && isHexString(opts.params[i])) {
-                opts.params[i] = parseHex(opts.params[i]);
             }
+        } else if (signature[i] === "i" && isHexString(params[i])) {
+            params[i] = parseHex(params[i]);
         }
     }
+    return params;
+}
+
+function compare(opts) {
+    var augur_encoded = augur_abi.encode(opts);
+    if (opts.params) opts.params = parseUglyHex(opts.params, opts.signature);
     var ethereumjs_encoded = abi.rawEncode(opts.method, abi.fromSerpent(opts.signature), opts.params);
     // console.log("augur-abi:     ", augur_encoded);
     // console.log("ethereumjs-abi:", "0x" + ethereumjs_encoded.toString("hex"));
