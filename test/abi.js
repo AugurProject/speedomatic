@@ -669,6 +669,34 @@ describe("format_address: format ethereum address", function () {
 
 });
 
+describe("int256-short string conversions", function () {
+
+    var test = function (t) {
+        it(t.int256 + " <-> " + t.short_string, function () {
+            assert.strictEqual(t.int256, abi.short_string_to_int256(t.short_string));
+            assert.strictEqual(t.short_string, abi.int256_to_short_string(t.int256));
+        });
+    };
+
+    test({
+        short_string: "george",
+        int256: "0x67656f7267650000000000000000000000000000000000000000000000000000"
+    });
+    test({
+        short_string: "U.S. Presidential Election",
+        int256: "0x552e532e20507265736964656e7469616c20456c656374696f6e000000000000"
+    });
+    test({
+        short_string: "1010101",
+        int256: "0x3130313031303100000000000000000000000000000000000000000000000000"
+    });
+    test({
+        short_string: "i'm a",
+        int256: "0x69276d2061000000000000000000000000000000000000000000000000000000"
+    });
+
+});
+
 describe("Fixed point tests", function () {
 
     var ex_integer = 12345678901;
@@ -1432,6 +1460,95 @@ describe("encode_hex", function () {
 
 });
 
+describe("encode_prefix", function () {
+    var test = function (t) {
+        it(t.method + ":" + t.signature + " -> " + t.expected, function () {
+            var actual = abi.encode_prefix(t.method, t.signature);
+            assert.strictEqual(actual, t.expected);
+        });
+    };
+    test({
+        method: "ten",
+        signature: "",
+        expected: "0x643ceff9"
+    });
+    test({
+        method: "faucet",
+        signature: "",
+        expected: "0xde5f72fd"
+    });
+    test({
+        method: "getBranches",
+        signature: "",
+        expected: "0xc3387858"
+    });
+    test({
+        method: "double",
+        signature: "i",
+        expected: "0x6ffa1caa"
+    });
+    test({
+        method: "getMarkets",
+        signature: "i",
+        expected: "0xb3903c8a"
+    });
+    test({
+        method: "getVotePeriod",
+        signature: "i",
+        expected: "0x7a66d7ca"
+    });
+    test({
+        method: "getDescription",
+        signature: "i",
+        expected: "0x37e7ee00"
+    });
+    test({
+        method: "getEventInfo",
+        signature: "i",
+        expected: "0x1aecdb5b"
+    });
+    test({
+        method: "multiply",
+        signature: "ii",
+        expected: "0x3c4308a8"
+    });
+    test({
+        method: "sendReputation",
+        signature: "iii",
+        expected: "0xa677135c"
+    });
+    test({
+        method: "double",
+        signature: "a",
+        expected: "0x08de53e9"
+    });
+    test({
+        method: "slashRep",
+        signature: "iiiai",
+        expected: "0x660a246c"
+    });
+    test({
+        method: "createEvent",
+        signature: "isiiii",
+        expected: "0x130dd1b3"
+    });
+    test({
+        method: "createEvent",
+        signature: "isiiiii",
+        expected: "0xf0061fd5"
+    });
+    test({
+        method: "createMarket",
+        signature: "isiiia",
+        expected: "0x08d19b3f"
+    });
+    test({
+        method: "createMarket",
+        signature: "isiiiai",
+        expected: "0x8df6a0cc"
+    });
+});
+
 describe("encode_bytes", function () {
     var test = function (t) {
         it(t.hex + " -> " + t.ascii, function () {
@@ -1567,95 +1684,6 @@ describe("encode_int256a", function () {
     });
 });
 
-describe("encode_prefix", function () {
-    var test = function (t) {
-        it(t.method + ":" + t.signature + " -> " + t.expected, function () {
-            var actual = abi.encode_prefix(t.method, t.signature);
-            assert.strictEqual(actual, t.expected);
-        });
-    };
-    test({
-        method: "ten",
-        signature: "",
-        expected: "0x643ceff9"
-    });
-    test({
-        method: "faucet",
-        signature: "",
-        expected: "0xde5f72fd"
-    });
-    test({
-        method: "getBranches",
-        signature: "",
-        expected: "0xc3387858"
-    });
-    test({
-        method: "double",
-        signature: "i",
-        expected: "0x6ffa1caa"
-    });
-    test({
-        method: "getMarkets",
-        signature: "i",
-        expected: "0xb3903c8a"
-    });
-    test({
-        method: "getVotePeriod",
-        signature: "i",
-        expected: "0x7a66d7ca"
-    });
-    test({
-        method: "getDescription",
-        signature: "i",
-        expected: "0x37e7ee00"
-    });
-    test({
-        method: "getEventInfo",
-        signature: "i",
-        expected: "0x1aecdb5b"
-    });
-    test({
-        method: "multiply",
-        signature: "ii",
-        expected: "0x3c4308a8"
-    });
-    test({
-        method: "sendReputation",
-        signature: "iii",
-        expected: "0xa677135c"
-    });
-    test({
-        method: "double",
-        signature: "a",
-        expected: "0x8de53e9"
-    });
-    test({
-        method: "slashRep",
-        signature: "iiiai",
-        expected: "0x660a246c"
-    });
-    test({
-        method: "createEvent",
-        signature: "isiiii",
-        expected: "0x130dd1b3"
-    });
-    test({
-        method: "createEvent",
-        signature: "isiiiii",
-        expected: "0xf0061fd5"
-    });
-    test({
-        method: "createMarket",
-        signature: "isiiia",
-        expected: "0x8d19b3f"
-    });
-    test({
-        method: "createMarket",
-        signature: "isiiiai",
-        expected: "0x8df6a0cc"
-    });
-});
-
 describe("encode_data", function () {
     var test = function (t) {
         it(JSON.stringify(t.params) + ":" + t.signature + " -> " + t.expected, function () {
@@ -1746,20 +1774,6 @@ describe("encode_data", function () {
                   "0000000000000000000000000000000000000000000000000000000000000002"+
                   "0000000000000000000000000000000000000000000000000000000000000003"+
                   "0000000000000000000000000000000000000000000000000000000000000004"
-    });
-    test({
-        signature: "b32i",
-        types: ["bytes32", "int256"],
-        params: ["gavofyork", 5],
-        expected: "6761766f66796f726b0000000000000000000000000000000000000000000000"+
-                  "0000000000000000000000000000000000000000000000000000000000000005"
-    });
-    test({
-        signature: "ib32",
-        types: ["int256", "bytes32"],
-        params: [5, "gavofyork"],
-        expected: "0000000000000000000000000000000000000000000000000000000000000005"+
-                  "6761766f66796f726b0000000000000000000000000000000000000000000000"
     });
     test({
         signature: "sia",
@@ -1890,18 +1904,19 @@ describe("encode", function () {
         it(t.method + "(" + JSON.stringify(t.params) + ":" + t.signature + ") -> " + t.expected, function () {
             var prefix, encoded, web3_encoded;
             prefix = abi.encode_prefix(t.method, t.signature);
-            encoded = prefix + abi.encode_data(t);
+            encoded = abi.encode(t);
+            var augurabi_encoded = abi.encode_prefix(t.method, t.signature) + abi.encode_data(t);
             if (t.types.length) {
                 web3_encoded = prefix + coder.encodeParams(t.types, t.params);
             } else {
                 web3_encoded = prefix;
             }
-            if (encoded !== web3_encoded) {
-                console.log("\naugur.js:", chunk32(encoded, null, 10));
+            if (encoded !== web3_encoded || encoded !== t.expected) {
+                console.log("\naugur-abi:     ", chunk32(augurabi_encoded, null, 10));
+                console.log("ethereumjs-abi:", chunk32(encoded, null, 10));
                 console.log("web3.js: ", chunk32(web3_encoded, null, 10));
-                // console.log("expected:", chunk32(t.expected, null, 10));
             }
-            // assert.strictEqual(encoded, t.expected);
+            assert.strictEqual(encoded, t.expected);
             assert.strictEqual(encoded, web3_encoded);
         });
     };
@@ -1998,7 +2013,7 @@ describe("encode", function () {
             signature: "a",
             types: ["int256[]"],
             params: [[3]],
-            expected: "0x8de53e9"+
+            expected: "0x08de53e9"+
                       "0000000000000000000000000000000000000000000000000000000000000020"+
                       "0000000000000000000000000000000000000000000000000000000000000001"+
                       "0000000000000000000000000000000000000000000000000000000000000003"
@@ -2008,7 +2023,7 @@ describe("encode", function () {
             signature: "a",
             types: ["int256[]"],
             params: [[2, 3]],
-            expected: "0x8de53e9"+
+            expected: "0x08de53e9"+
                 "0000000000000000000000000000000000000000000000000000000000000020"+
                 "0000000000000000000000000000000000000000000000000000000000000002"+
                 "0000000000000000000000000000000000000000000000000000000000000002"+
@@ -2019,7 +2034,7 @@ describe("encode", function () {
             signature: "a",
             types: ["int256[]"],
             params: [[4, 7]],
-            expected: "0x8de53e9"+
+            expected: "0x08de53e9"+
                 "0000000000000000000000000000000000000000000000000000000000000020"+
                 "0000000000000000000000000000000000000000000000000000000000000002"+
                 "0000000000000000000000000000000000000000000000000000000000000004"+
@@ -2030,7 +2045,7 @@ describe("encode", function () {
             signature: "a",
             types: ["int256[]"],
             params: [[1, 2, 3]],
-            expected: "0x8de53e9"+
+            expected: "0x08de53e9"+
                 "0000000000000000000000000000000000000000000000000000000000000020"+
                 "0000000000000000000000000000000000000000000000000000000000000003"+
                 "0000000000000000000000000000000000000000000000000000000000000001"+
@@ -2058,24 +2073,6 @@ describe("encode", function () {
     describe("Mixed parameters", function () {
         test({
             method: "testMethod",
-            signature: "b32i",
-            types: ["bytes32", "int256"],
-            params: ["gavofyork", 5],
-            expected: "0x1c17917f"+
-                "6761766f66796f726b0000000000000000000000000000000000000000000000"+
-                "0000000000000000000000000000000000000000000000000000000000000005"
-        });
-        test({
-            method: "testMethod",
-            signature: "ib32",
-            types: ["int256", "bytes32"],
-            params: [5, "gavofyork"],
-            expected: "0x82e646a6"+
-                "0000000000000000000000000000000000000000000000000000000000000005"+
-                "6761766f66796f726b0000000000000000000000000000000000000000000000"
-        });
-        test({
-            method: "testMethod",
             signature: "sia",
             types: ["bytes", "int256", "int256[]"],
             params: ["gavofyork", 1, [1, 2, 3]],
@@ -2095,7 +2092,7 @@ describe("encode", function () {
             signature: "isiiia",
             types: ["int256", "bytes", "int256", "int256", "int256", "int256[]"],
             params: [1, "gavofyork", 2, 3, 4, [5, 6, 7]],
-            expected: "0x8d19b3f"+
+            expected: "0x08d19b3f"+
                 "0000000000000000000000000000000000000000000000000000000000000001"+
                 "00000000000000000000000000000000000000000000000000000000000000c0"+
                 "0000000000000000000000000000000000000000000000000000000000000002"+
@@ -2187,8 +2184,8 @@ describe("encode", function () {
                 "0000000000000000000000000000000000000000000000000000000000000002"+
                 "00000000000000000000000000000000000000000000000000000000000000a5"+
                 "000000000000000000000000000000000000000000000000000000000000003b"+
-                "57696c6c204a61636b2077696e20746865204a756e6520323031352041756775"+
-                "7220427265616b64616e63696e6720436f6d7065746974696f6e3f"
+                "57696c6c204a61636b2077696e20746865204a756e6520323031352061756775"+
+                "7220427265616b64616e63696e6720436f6d7065746974696f6e3f0000000000"
         });
         test({
             method: "createMarket",
@@ -2204,19 +2201,19 @@ describe("encode", function () {
                  "0x4f37814757b7d0e2dde46de18bb4bf4a85e6716a06849d5cfcebf8f1d7270b12",
                  "0x412b3c588f9be08d54e99bf5095ef910c5e84080f048e3af8a2718b7b693cb83"]
             ],
-            expected: "0x8d19b3f3"+
-                "8a820692912b5f7a3bfefc2a1d4826e1da6beaed5fac6de3d22b181321339910"+
-                "0000000000000000000000000000000000000000000000000000000000000c00"+
-                "0000000000000000000000000000000000000000000000010000000000000000"+
-                "0000000000000000000000000000000000000000000028000000000000000000"+
-                "0000000000000000000000000000000000000000000000004000000000000000"+
-                "0000000000000000000000000000000000000000000000000000000000001000"+
-                "0000000000000000000000000000000000000000000000000000000000000146"+
-                "d61726b657420666f72207261676566657374730000000000000000000000000"+
-                "000000000000000000000000000000000000000000000000000000000000003b"+
-                "2a6de45f349b5ac384b01a785e640f519f0a8597ab2031c964c7f572d96b13c4"+
-                "f37814757b7d0e2dde46de18bb4bf4a85e6716a06849d5cfcebf8f1d7270b124"+
-                "12b3c588f9be08d54e99bf5095ef910c5e84080f048e3af8a2718b7b693cb83"
+            expected: "0x08d19b3f"+
+                "38a820692912b5f7a3bfefc2a1d4826e1da6beaed5fac6de3d22b18132133991"+
+                "00000000000000000000000000000000000000000000000000000000000000c0"+
+                "0000000000000000000000000000000000000000000000001000000000000000"+
+                "0000000000000000000000000000000000000000000002800000000000000000"+
+                "0000000000000000000000000000000000000000000000000400000000000000"+
+                "0000000000000000000000000000000000000000000000000000000000000100"+
+                "0000000000000000000000000000000000000000000000000000000000000014"+
+                "6d61726b657420666f7220726167656665737473000000000000000000000000"+
+                "0000000000000000000000000000000000000000000000000000000000000003"+
+                "b2a6de45f349b5ac384b01a785e640f519f0a8597ab2031c964c7f572d96b13c"+
+                "4f37814757b7d0e2dde46de18bb4bf4a85e6716a06849d5cfcebf8f1d7270b12"+
+                "412b3c588f9be08d54e99bf5095ef910c5e84080f048e3af8a2718b7b693cb83"
         });
         test({
             method: "createMarket",
@@ -2284,26 +2281,26 @@ describe("encode", function () {
             params: [
                 1010101,
                 "Will the Sun turn into a red giant and engulf the Earth by the end of 2015?",
-                "0.0079",
+                abi.fix("0.0079", "hex"),
                 1000,
-                "0.02",
+                abi.fix("0.02", "hex"),
                 ["-0x29ccc80fb51d4a6cf0855251cbca882f6afea3a93e12b3722d2401fccddc41f2"],
                 "10000"
             ],
             expected: "0x8df6a0cc"+
                 "00000000000000000000000000000000000000000000000000000000000f69b5"+
                 "00000000000000000000000000000000000000000000000000000000000000e0"+
-                "0000000000000000000000000000000000000000000000000000000000000000"+
+                "0000000000000000000000000000000000000000000000000205bc01a36e2eb2"+
                 "00000000000000000000000000000000000000000000000000000000000003e8"+
-                "0000000000000000000000000000000000000000000000000000000000000000"+
-                "000000000000000000000000000000000000000000000000000000000000014b"+
+                "000000000000000000000000000000000000000000000000051eb851eb851eb8"+
+                "0000000000000000000000000000000000000000000000000000000000000160"+
                 "0000000000000000000000000000000000000000000000000000000000002710"+
                 "000000000000000000000000000000000000000000000000000000000000004b"+
                 "57696c6c207468652053756e207475726e20696e746f20612072656420676961"+
                 "6e7420616e6420656e67756c6620746865204561727468206279207468652065"+
                 "6e64206f6620323031353f000000000000000000000000000000000000000000"+
-                "0000000000000000000001d63337f04ae2b5930f7aadae343577d095015c56c1"+
-                "ed4c8dd2dbfe033223be0e"
+                "0000000000000000000000000000000000000000000000000000000000000001"+
+                "d63337f04ae2b5930f7aadae343577d095015c56c1ed4c8dd2dbfe033223be0e"
         });
     });
 });

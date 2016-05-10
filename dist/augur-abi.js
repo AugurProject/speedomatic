@@ -15,6 +15,7 @@ global.augur_abi = augur_abi;
 
 var BigNumber = require("bignumber.js");
 var keccak_256 = require("js-sha3").keccak_256;
+// var ethabi = new (require("ethereumjs-abi"))();
 
 BigNumber.config({ MODULO_MODE: BigNumber.EUCLID });
 
@@ -58,6 +59,14 @@ module.exports = {
             hex = hex.slice(0,-2);
         }
         return hex;
+    },
+
+    short_string_to_int256: function (s) {
+        return this.prefix_hex(this.pad_right(this.encode_hex(s)));
+    },
+
+    int256_to_short_string: function (n) {
+        return this.decode_hex(this.remove_trailing_zeros(n));
     },
 
     decode_hex: function (h, strip) {
@@ -426,7 +435,7 @@ module.exports = {
         while (prefix.slice(0, 1) === '0') {
             prefix = prefix.slice(1);
         }
-        return "0x" + prefix;
+        return this.pad_left(prefix, 8, true);
     },
 
     parse_signature: function (signature) {
@@ -574,7 +583,7 @@ module.exports = {
     encode_data: function (itx) {
         var tx, num_params, types, encoding;
         tx = this.copy(itx);
-        
+
         // parse signature and parameter array
         types = this.parse_signature(tx.signature);
         num_params = tx.signature.replace(/\d+/g, '').length;
@@ -609,6 +618,7 @@ module.exports = {
     encode: function (tx) {
         tx.signature = tx.signature || "";
         return this.encode_prefix(tx.method, tx.signature) + this.encode_data(tx);
+        // return "0x" + ethabi.rawEncode(tx.method, ethabi.fromSerpent(tx.signature), tx.params).toString("hex");
     }
 };
 
