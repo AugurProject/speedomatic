@@ -7,9 +7,9 @@
 
 var BigNumber = require("bignumber.js");
 var keccak_256 = require("js-sha3").keccak_256;
-// var ethabi = new (require("ethereumjs-abi"))();
+var ethabi = require("ethereumjs-abi");
 
-BigNumber.config({ MODULO_MODE: BigNumber.EUCLID });
+BigNumber.config({MODULO_MODE: BigNumber.EUCLID});
 
 module.exports = {
 
@@ -18,6 +18,8 @@ module.exports = {
         MOD: new BigNumber(2).toPower(256),
         BYTES_32: new BigNumber(2).toPower(252)
     },
+
+    abi: ethabi,
 
     copy: function (obj) {
         if (null === obj || "object" !== typeof obj) return obj;
@@ -45,20 +47,49 @@ module.exports = {
         return hex;
     },
 
-    remove_trailing_zeros: function (h) {
+    remove_trailing_zeros: function (h, utf8) {
         var hex = h.toString();
-        while (hex.slice(-2) === "00") {
-            hex = hex.slice(0,-2);
+        if (utf8) {
+            while (hex.slice(-1) === "\u0000") {
+                hex = hex.slice(0, -1);
+            }
+        } else {
+            while (hex.slice(-2) === "00") {
+                hex = hex.slice(0, -2);
+            }
         }
         return hex;
     },
 
+    bytes_to_utf16: function (bytearray) {
+        if (bytearray.constructor === Array) {
+            var tmp = '';
+            for (var i = 0; i < bytearray.length; ++i) {
+                tmp += bytearray[i].slice(2);
+            }
+            bytearray = tmp;
+        } else if (Buffer.isBuffer(bytearray)) {
+            bytearray = bytearray.toString("hex");
+        }
+        bytearray = this.strip_0x(bytearray);
+        return this.remove_trailing_zeros(
+            this.abi.rawDecode(
+                ["string"],
+                new Buffer(
+                    "0000000000000000000000000000000000000000000000000000000000000020"+
+                        this.pad_left((this.chunk(bytearray.length)*32).toString(16))+
+                        this.pad_right(bytearray),
+                    "hex")
+            )[0], true);
+    },
+
     short_string_to_int256: function (s) {
-        return this.prefix_hex(this.pad_right(this.encode_hex(s)));
+        if (s.length > 32) s = s.slice(0, 32);
+        return this.prefix_hex(ethabi.rawEncode(["string"], [s]).slice(64).toString("hex"));
     },
 
     int256_to_short_string: function (n) {
-        return this.decode_hex(this.remove_trailing_zeros(n));
+        return this.bytes_to_utf16(this.remove_trailing_zeros(n));
     },
 
     decode_hex: function (h, strip) {
@@ -105,7 +136,7 @@ module.exports = {
         }
     },
 
-    hex: function (n, nowrap) {
+    hex: function (n, wrap) {
         var h;
         if (n !== undefined && n !== null && n.constructor) {
             switch (n.constructor) {
@@ -116,7 +147,7 @@ module.exports = {
                     h = this.encode_hex(JSON.stringify(n));
                     break;
                 case Array:
-                    h = this.bignum(n, "hex", nowrap);
+                    h = this.bignum(n, "hex", wrap);
                     break;
                 case BigNumber:
                     h = n.toString(16);
@@ -130,7 +161,7 @@ module.exports = {
                         h = n;
                     } else {
                         if (isFinite(n)) {
-                            h = this.bignum(n, "hex", nowrap);
+                            h = this.bignum(n, "hex", wrap);
                         } else {
                             h = this.encode_hex(n);
                         }
@@ -140,7 +171,7 @@ module.exports = {
                     h = (n) ? "0x1" : "0x0";
                     break;
                 default:
-                    h = this.bignum(n, "hex", nowrap);
+                    h = this.bignum(n, "hex", wrap);
             }
         }
         return this.prefix_hex(h);
@@ -218,7 +249,7 @@ module.exports = {
         return n;
     },
 
-    bignum: function (n, encoding, nowrap) {
+    bignum: function (n, encoding, wrap) {
         var bn, len;
         if (n !== null && n !== undefined && n !== "0x" && !n.error && !n.message) {
             switch (n.constructor) {
@@ -256,7 +287,7 @@ module.exports = {
                     len = n.length;
                     bn = new Array(len);
                     for (var i = 0; i < len; ++i) {
-                        bn[i] = this.bignum(n[i], encoding, nowrap);
+                        bn[i] = this.bignum(n[i], encoding, wrap);
                     }
                     break;
                 default:
@@ -271,7 +302,7 @@ module.exports = {
                     }
             }
             if (bn !== undefined && bn !== null && bn.constructor === BigNumber) {
-                if (!nowrap && bn.gte(this.constants.BYTES_32)) {
+                if (wrap && bn.gte(this.constants.BYTES_32)) {
                     bn = bn.sub(this.constants.MOD);
                 }
                 if (encoding) {
@@ -487,129 +518,9 @@ module.exports = {
         return output;
     },
 
-    // static parameter encoding
-
-    encode_int256: function (encoding, param) {
-        if (param !== undefined && param !== null && param !== [] && param !== "") {
-
-            // input is a javascript number
-            if (param.constructor === Number) {
-                param = this.bignum(param);
-                if (param.lt(new BigNumber(0))) {
-                    param = param.add(this.constants.MOD);
-                }
-                encoding.statics += this.encode_int(param);
-
-            // input is a string
-            } else if (param.constructor === String) {
-
-                // negative hex
-                if (param.slice(0,1) === '-') {
-                    param = this.bignum(param).add(this.constants.MOD).toFixed();
-                    encoding.statics += this.encode_int(param);
-
-                // positive hex
-                } else if (param.slice(0,2) === "0x") {
-                    encoding.statics += this.pad_left(param.slice(2));
-
-                // decimal (base-10 integer)
-                } else {
-                    encoding.statics += this.encode_int(param);
-                }
-            }
-
-            // size in multiples of 32
-            encoding.chunks += this.chunk(encoding.statics.length);
-        }
-        return encoding;
-    },
-
-    encode_bytesN: function (encoding, param) {
-        if (param !== undefined && param !== null && param !== [] && param !== "") {
-            while (param.length) {
-                encoding.statics += this.pad_right(this.encode_hex(param.slice(0, 64)));
-                param = param.slice(64);
-            }
-            encoding.chunks += this.chunk(encoding.statics.length);
-        }
-        return encoding;
-    },
-
-    // dynamic parameter encoding
-
-    // offset (in multiples of 32)
-    offset: function (len, num_params) {
-        return this.encode_int(32 * (num_params + this.chunk(len)));
-    },
-
-    encode_bytes: function (encoding, param, num_params) {
-        encoding.statics += this.offset(encoding.dynamics.length, num_params);
-        encoding.dynamics += this.encode_int(param.length);
-        encoding.dynamics += this.pad_right(this.encode_hex(param));
-        return encoding;
-    },
-
-    encode_int256a: function (encoding, param, num_params) {
-        encoding.statics += this.offset(encoding.dynamics.length, num_params);
-        var arraylen = param.length;
-        encoding.dynamics += this.encode_int(arraylen);
-        for (var j = 0; j < arraylen; ++j) {
-            if (param[j] !== undefined) {
-                if (param[j].constructor === Number) {
-                    encoding.dynamics += this.encode_int(this.bignum(param[j]).mod(this.constants.MOD).toFixed());
-                } else if (param[j].constructor === String) {
-                    if (param[j].slice(0,1) === '-') {
-                        encoding.dynamics += this.encode_int(this.bignum(param[j]).mod(this.constants.MOD).toFixed());
-                    } else if (param[j].slice(0,2) === "0x") {
-                        encoding.dynamics += this.pad_left(param[j].slice(2));
-                    } else {
-                        encoding.dynamics += this.encode_int(this.bignum(param[j]).mod(this.constants.MOD).toFixed());
-                    }
-                }
-                encoding.dynamics = this.pad_right(encoding.dynamics);
-            }
-        }
-        return encoding;
-    },
-
-    encode_data: function (itx) {
-        var tx, num_params, types, encoding;
-        tx = this.copy(itx);
-
-        // parse signature and parameter array
-        types = this.parse_signature(tx.signature);
-        num_params = tx.signature.replace(/\d+/g, '').length;
-        tx.params = this.parse_params(tx.params);
-
-        // chunks: size of the static encoding (in multiples of 32)
-        encoding = { chunks: 0, statics: '', dynamics: '' };
-
-        // encode parameters
-        if (num_params === tx.params.length) {
-            for (var i = 0; i < num_params; ++i) {
-                if (types[i] === "int256") {
-                    encoding = this.encode_int256(encoding, tx.params[i]);
-                } else if (types[i] === "bytes" || types[i] === "string") {
-                    encoding = this.encode_bytes(encoding, tx.params[i], num_params);
-                } else if (types[i] === "int256[]") {
-                    encoding = this.encode_int256a(encoding, tx.params[i], num_params);
-                } else {
-                    // var num_bytes = parseInt(types[i].replace("bytes", ''));
-                    encoding = this.encode_bytesN(encoding, tx.params[i]);
-                }
-            }
-            return encoding.statics + encoding.dynamics;
-
-        // number of parameters provided didn't match the signature
-        } else {
-            return new Error("wrong number of parameters");
-        }
-    },
-
     // hex-encode a function's ABI data and return it
     encode: function (tx) {
         tx.signature = tx.signature || "";
-        return this.encode_prefix(tx.method, tx.signature) + this.encode_data(tx);
-        // return "0x" + ethabi.rawEncode(tx.method, ethabi.fromSerpent(tx.signature), tx.params).toString("hex");
+        return this.encode_prefix(tx.method, tx.signature) + ethabi.rawEncode(ethabi.fromSerpent(tx.signature), tx.params).toString("hex");
     }
 };
