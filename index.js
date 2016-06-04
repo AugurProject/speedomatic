@@ -97,32 +97,34 @@ module.exports = {
         if (bytearray.constructor === Array) {
             var tmp = '';
             for (var i = 0; i < bytearray.length; ++i) {
-                tmp += bytearray[i].slice(2);
+                if (bytearray[i] !== undefined && bytearray[i] !== null) {
+                    if (bytearray[i].constructor === String) {
+                        tmp += this.strip_0x(bytearray[i]);
+                    } else if (bytearray[i].constructor === Number) {
+                        tmp += bytearray[i].toString(16);
+                    } else if (Buffer.isBuffer(bytearray[i])) {
+                        tmp += bytearray[i].toString("hex");
+                    }
+                }
             }
             bytearray = tmp;
-        } else if (Buffer.isBuffer(bytearray)) {
-            bytearray = bytearray.toString("hex");
         }
-        bytearray = this.strip_0x(bytearray);
-        return this.remove_trailing_zeros(
-            this.abi.rawDecode(
-                ["string"],
-                new Buffer(
-                    "0000000000000000000000000000000000000000000000000000000000000020"+
-                        this.pad_left((this.chunk(bytearray.length)*32).toString(16))+
-                        this.pad_right(bytearray),
-                    "hex")
-            )[0], true);
+        if (bytearray.constructor === String) {
+            bytearray = this.strip_0x(bytearray);
+        }
+        if (!Buffer.isBuffer(bytearray)) {
+            bytearray = new Buffer(bytearray, "hex");
+        }
+        return bytearray.toString("utf8");
     },
 
     short_string_to_int256: function (s) {
         if (s.length > 32) s = s.slice(0, 32);
         return this.prefix_hex(this.pad_right(new Buffer(s, "utf8").toString("hex")));
-        // return this.prefix_hex(ethabi.rawEncode(["string"], [s]).slice(64).toString("hex"));
     },
 
     int256_to_short_string: function (n) {
-        return this.bytes_to_utf16(this.remove_trailing_zeros(n));
+        return new Buffer(this.strip_0x(this.remove_trailing_zeros(n)), "hex").toString("utf8");
     },
 
     decode_hex: function (h, strip) {
