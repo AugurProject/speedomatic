@@ -1334,99 +1334,10 @@ describe("encode_hex", function () {
 
 });
 
-describe("encode_prefix", function () {
-    var test = function (t) {
-        it(t.method + ":" + t.signature + " -> " + t.expected, function () {
-            var actual = abi.encode_prefix(t.method, t.signature);
-            assert.strictEqual(actual, t.expected);
-        });
-    };
-    test({
-        method: "ten",
-        signature: "",
-        expected: "0x643ceff9"
-    });
-    test({
-        method: "faucet",
-        signature: "",
-        expected: "0xde5f72fd"
-    });
-    test({
-        method: "getBranches",
-        signature: "",
-        expected: "0xc3387858"
-    });
-    test({
-        method: "double",
-        signature: "i",
-        expected: "0x6ffa1caa"
-    });
-    test({
-        method: "getMarkets",
-        signature: "i",
-        expected: "0xb3903c8a"
-    });
-    test({
-        method: "getVotePeriod",
-        signature: "i",
-        expected: "0x7a66d7ca"
-    });
-    test({
-        method: "getDescription",
-        signature: "i",
-        expected: "0x37e7ee00"
-    });
-    test({
-        method: "getEventInfo",
-        signature: "i",
-        expected: "0x1aecdb5b"
-    });
-    test({
-        method: "multiply",
-        signature: "ii",
-        expected: "0x3c4308a8"
-    });
-    test({
-        method: "sendReputation",
-        signature: "iii",
-        expected: "0xa677135c"
-    });
-    test({
-        method: "double",
-        signature: "a",
-        expected: "0x08de53e9"
-    });
-    test({
-        method: "slashRep",
-        signature: "iiiai",
-        expected: "0x660a246c"
-    });
-    test({
-        method: "createEvent",
-        signature: "isiiii",
-        expected: "0x130dd1b3"
-    });
-    test({
-        method: "createEvent",
-        signature: "isiiiii",
-        expected: "0xf0061fd5"
-    });
-    test({
-        method: "createMarket",
-        signature: "isiiia",
-        expected: "0x08d19b3f"
-    });
-    test({
-        method: "createMarket",
-        signature: "isiiiai",
-        expected: "0x8df6a0cc"
-    });
-});
-
 describe("encode", function () {
     var test = function (t) {
         it(t.method + "(" + JSON.stringify(t.params) + ":" + t.signature + ") -> " + t.expected, function () {
-            var prefix = abi.encode_prefix(t.method, t.signature);
+            var prefix = abi.abi.methodID(t.method, abi.abi.fromSerpent(t.signature));
             var encoded = abi.encode(t);
             assert.strictEqual(encoded, t.expected);
         });
