@@ -321,11 +321,11 @@ module.exports = {
                     break;
                 case Number:
                     if (Math.floor(Math.log(n) / Math.log(10) + 1) <= 15) {
-                        bn = new BigNumber(n);
+                        bn = new BigNumber(n, 10);
                     } else {
                         n = n.toString();
                         try {
-                            bn = new BigNumber(n);
+                            bn = new BigNumber(n, 10);
                         } catch (exc) {
                             if (this.is_hex(n)) {
                                 bn = new BigNumber(n, 16);
@@ -337,7 +337,7 @@ module.exports = {
                     break;
                 case String:
                     try {
-                        bn = new BigNumber(n);
+                        bn = new BigNumber(n, 10);
                     } catch (exc) {
                         if (this.is_hex(n)) {
                             bn = new BigNumber(n, 16);
@@ -355,7 +355,7 @@ module.exports = {
                     break;
                 default:
                     try {
-                        bn = new BigNumber(n);
+                        bn = new BigNumber(n, 10);
                     } catch (ex) {
                         try {
                             bn = new BigNumber(n, 16);

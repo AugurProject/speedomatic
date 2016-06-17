@@ -725,6 +725,12 @@ describe("Fixed point tests", function () {
         it("should return a base 16 string '0x1f9add3739635f31'", function () {
             assert(abi.fix(ex_decimal_string, "hex") === "0x1f9add3739635f31");
         });
+        it("should return a base 16 string '0x9f853ac0800001ba'", function () {
+            assert(abi.fix(0.6231266708346084, "hex") === "0x9f853ac0800001ba");
+        });
+        it("should return a base 16 string '0x9f853ac0800001ba'", function () {
+            assert(abi.fix("0.6231266708346084", "hex") === "0x9f853ac0800001ba");
+        });
     });
 
     describe("unfix", function () {
