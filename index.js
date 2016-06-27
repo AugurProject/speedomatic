@@ -575,11 +575,10 @@ module.exports = {
 
     // hex-encode a function's ABI data and return it
     encode: function (tx) {
-        tx.signature = tx.signature || "";
-        var sig = ethabi.fromSerpent(tx.signature);
+        tx.signature = tx.signature || [];
         return this.prefix_hex(Buffer.concat([
-            ethabi.methodID(tx.method, sig),
-            ethabi.rawEncode(sig, tx.params)
+            ethabi.methodID(tx.method, tx.signature),
+            ethabi.rawEncode(tx.signature, tx.params)
         ]).toString("hex"));
     }
 };
