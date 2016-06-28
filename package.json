@@ -1,6 +1,6 @@
 {
   "name": "augur-abi",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Contract ABI serialization",
   "main": "index.js",
   "directories": {
@@ -23,9 +23,9 @@
   },
   "homepage": "https://github.com/AugurProject/augur-abi#readme",
   "dependencies": {
-    "bignumber.js": "^2.0.7",
-    "ethereumjs-abi": "^0.6.2",
-    "js-sha3": "^0.3.1"
+    "bignumber.js": "2.0.7",
+    "ethereumjs-abi": "0.6.2",
+    "js-sha3": "0.3.1"
   },
   "devDependencies": {
     "browserify": "^11.0.1",

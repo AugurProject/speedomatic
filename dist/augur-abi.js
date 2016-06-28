@@ -593,13 +593,13 @@ module.exports = {
 
 }).call(this,require("buffer").Buffer)
 },{"bignumber.js":3,"buffer":6,"ethereumjs-abi":220,"js-sha3":272}],3:[function(require,module,exports){
-/*! bignumber.js v2.0.8 https://github.com/MikeMcl/bignumber.js/LICENCE */
+/*! bignumber.js v2.0.7 https://github.com/MikeMcl/bignumber.js/LICENCE */
 
 ;(function (global) {
     'use strict';
 
     /*
-      bignumber.js v2.0.8
+      bignumber.js v2.0.7
       A JavaScript library for arbitrary-precision arithmetic.
       https://github.com/MikeMcl/bignumber.js
       Copyright (c) 2015 Michael Mclaughlin <M8ch88l@gmail.com>
@@ -1895,7 +1895,7 @@ module.exports = {
                             sd -= x.e + 1;
 
                             // 1, 0.1, 0.01, 0.001, 0.0001 etc.
-                            xc[0] = pows10[ ( LOG_BASE - sd % LOG_BASE ) % LOG_BASE ];
+                            xc[0] = pows10[ sd % LOG_BASE ];
                             x.e = -sd || 0;
                         } else {
 
@@ -2948,7 +2948,10 @@ module.exports = {
          * Return the value of this BigNumber converted to a number primitive.
          */
         P.toNumber = function () {
-            return +this;
+            var x = this;
+
+            // Ensure zero has correct sign.
+            return +x || ( x.s ? x.s * 0 : NaN );
         };
 
 
@@ -3077,23 +3080,10 @@ module.exports = {
 
 
         /*
-         * Return as toString, but do not accept a base argument, and include the minus sign for
-         * negative zero.
+         * Return as toString, but do not accept a base argument.
          */
         P.valueOf = P.toJSON = function () {
-            var str,
-                n = this,
-                e = n.e;
-
-            if ( e === null ) return n.toString();
-
-            str = coeffToString( n.c );
-
-            str = e <= TO_EXP_NEG || e >= TO_EXP_POS
-                ? toExponential( str, e )
-                : toFixedPoint( str, e );
-
-            return n.s < 0 ? '-' + str : str;
+            return this.toString();
         };
 
 
