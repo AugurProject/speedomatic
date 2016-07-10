@@ -719,17 +719,17 @@ describe("Fixed point tests", function () {
         it("should be equal to round(n*2^64)", function () {
             assert(abi.fix(ex_decimal, "BigNumber").eq((new BigNumber(ex_decimal)).mul(abi.constants.ONE).round()));
         });
-        it("should return a base 10 string '2277375790844960561'", function () {
-            assert(abi.fix(ex_decimal, "string") === "2277375790844960561");
+        it("should return a base 10 string '123456789000000000'", function () {
+            assert.strictEqual(abi.fix(ex_decimal, "string"), "123456789000000000");
         });
-        it("should return a base 16 string '0x1f9add3739635f31'", function () {
-            assert(abi.fix(ex_decimal_string, "hex") === "0x1f9add3739635f31");
+        it("should return a base 16 string '0x1b69b4ba5749200'", function () {
+            assert.strictEqual(abi.fix(ex_decimal_string, "hex"), "0x1b69b4ba5749200");
         });
-        it("should return a base 16 string '0x9f853ac0800001ba'", function () {
-            assert(abi.fix(0.6231266708346084, "hex") === "0x9f853ac0800001ba");
+        it("should return a base 16 string '0x8a5ca67d92b2910'", function () {
+            assert.strictEqual(abi.fix(0.6231266708346084, "hex"), "0x8a5ca67d92b2910");
         });
-        it("should return a base 16 string '0x9f853ac0800001ba'", function () {
-            assert(abi.fix("0.6231266708346084", "hex") === "0x9f853ac0800001ba");
+        it("should return a base 16 string '0x8a5ca67d92b2910'", function () {
+            assert.strictEqual(abi.fix("0.6231266708346084", "hex"), "0x8a5ca67d92b2910");
         });
     });
 
@@ -1429,7 +1429,7 @@ describe("encode", function () {
             expected: "0xa677135c"+
                 "00000000000000000000000000000000000000000000000000000000000f69b5"+
                 "0000000000000000000000006fc0a64e2dce367e35417bfd1568fa35af9f3e4b"+
-                "0000000000000000000000000000000000000000000000050000000000000000"
+                "0000000000000000000000000000000000000000000000004563918244f40000"
         });
     });
     describe("Single int256[] parameter", function () {
@@ -1745,9 +1745,9 @@ describe("encode", function () {
             expected: "0x8df6a0cc"+
                 "00000000000000000000000000000000000000000000000000000000000f69b5"+
                 "00000000000000000000000000000000000000000000000000000000000000e0"+
-                "0000000000000000000000000000000000000000000000000205bc01a36e2eb2"+
+                "000000000000000000000000000000000000000000000000001c110215b9c000"+
                 "00000000000000000000000000000000000000000000000000000000000003e8"+
-                "000000000000000000000000000000000000000000000000051eb851eb851eb8"+
+                "00000000000000000000000000000000000000000000000000470de4df820000"+
                 "0000000000000000000000000000000000000000000000000000000000000160"+
                 "0000000000000000000000000000000000000000000000000000000000002710"+
                 "000000000000000000000000000000000000000000000000000000000000004b"+

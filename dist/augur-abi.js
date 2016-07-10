@@ -22,7 +22,7 @@ BigNumber.config({MODULO_MODE: BigNumber.EUCLID});
 module.exports = {
 
     constants: {
-        ONE: (new BigNumber(2)).toPower(64),
+        ONE: (new BigNumber(10)).toPower(18),
         MOD: new BigNumber(2).toPower(256),
         BYTES_32: new BigNumber(2).toPower(252)
     },
