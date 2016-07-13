@@ -13,6 +13,8 @@ BigNumber.config({MODULO_MODE: BigNumber.EUCLID});
 
 module.exports = {
 
+    debug: false,
+
     constants: {
         ONE: (new BigNumber(10)).toPower(18),
         MOD: new BigNumber(2).toPower(256),
@@ -242,6 +244,21 @@ module.exports = {
         return false;
     },
 
+    format_int256: function (s) {
+        if (s === undefined || s === null || s === "0x") return s;
+        if (Buffer.isBuffer(s)) s = s.toString("hex");
+        if (s.constructor !== String) s = s.toString(16);
+        s = this.strip_0x(s);
+        if (s.length > 64) {
+            if (this.debug) {
+                var overflow = (s.length / 2) - 32;
+                console.warn("input " + overflow + " bytes too large for int256, truncating");
+            }
+            s = s.slice(0, 64);
+        }
+        return this.prefix_hex(this.pad_left(s));
+    },
+
     format_address: function (addr) {
         if (addr && addr.constructor === String) {
             addr = this.strip_0x(addr);
@@ -287,18 +304,15 @@ module.exports = {
     },
 
     prefix_hex: function (n) {
-        if (n !== undefined && n !== null) {
-            if (n.constructor === Number || n.constructor === BigNumber) {
-                n = n.toString(16);
-            }
-            if (n.constructor === String &&
-                n.slice(0,2) !== "0x" && n.slice(0,3) !== "-0x")
-            {
-                if (n.slice(0,1) === '-') {
-                    n = "-0x" + n.slice(1);
-                } else {
-                    n = "0x" + n;
-                }
+        if (n === undefined || n === null || n === "") return n;
+        if (n.constructor === Number || n.constructor === BigNumber) {
+            n = n.toString(16);
+        }
+        if (n.constructor === String && n.slice(0,2) !== "0x" && n.slice(0,3) !== "-0x") {
+            if (n.slice(0,1) === '-') {
+                n = "-0x" + n.slice(1);
+            } else {
+                n = "0x" + n;
             }
         }
         return n;
@@ -462,7 +476,7 @@ module.exports = {
     pad_right: function (s, chunk_len, prefix) {
         chunk_len = chunk_len || 64;
         s = this.strip_0x(s);
-        var multiple = chunk_len * this.chunk(s.length, chunk_len);
+        var multiple = chunk_len * (this.chunk(s.length, chunk_len) || 1);
         while (s.length < multiple) {
             s += '0';
         }
@@ -473,7 +487,7 @@ module.exports = {
     pad_left: function (s, chunk_len, prefix) {
         chunk_len = chunk_len || 64;
         s = this.strip_0x(s);
-        var multiple = chunk_len * this.chunk(s.length, chunk_len);
+        var multiple = chunk_len * (this.chunk(s.length, chunk_len) || 1);
         while (s.length < multiple) {
             s = '0' + s;
         }

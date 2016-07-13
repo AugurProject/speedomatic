@@ -1,11 +1,10 @@
 {
   "name": "augur-abi",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "description": "Contract ABI serialization",
   "main": "index.js",
   "directories": {
-    "test": "test",
-    "lib": "lib"
+    "test": "test"
   },
   "scripts": {
     "test": "mocha test/*.js",
