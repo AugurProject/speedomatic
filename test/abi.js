@@ -77,8 +77,11 @@ describe("unfork", function () {
 
     var test = function (t) {
         it("convert " + t.forked + " to " + t.unforked, function () {
-            var unforked = abi.unfork(t.forked);
-            assert(abi.bignum(unforked).eq(abi.bignum(t.unforked, "hex")));
+            var unforked = abi.unfork(t.forked, true);
+            if (unforked.constructor === BigNumber) {
+                unforked = abi.hex(unforked);
+            }
+            assert.strictEqual(unforked, t.unforked);
         });
     };
 

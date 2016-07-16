@@ -23,10 +23,13 @@ module.exports = {
 
     debug: false,
 
+    version: "0.5.0",
+
     constants: {
-        ONE: (new BigNumber(10)).toPower(18),
-        MOD: new BigNumber(2).toPower(256),
-        BYTES_32: new BigNumber(2).toPower(252)
+        ONE: new BigNumber(10).toPower(new BigNumber(18)),
+        BYTES_32: new BigNumber(2).toPower(new BigNumber(252)),
+        MAX: new BigNumber(2).toPower(new BigNumber(255)),
+        MOD: new BigNumber(2).toPower(new BigNumber(256))
     },
 
     abi: ethabi,
@@ -379,7 +382,7 @@ module.exports = {
                     }
             }
             if (bn !== undefined && bn !== null && bn.constructor === BigNumber) {
-                if (wrap && bn.gte(this.constants.BYTES_32)) {
+                if (wrap && bn.gte(this.constants.MAX)) {
                     bn = bn.sub(this.constants.MOD);
                 }
                 if (encoding) {
@@ -398,7 +401,7 @@ module.exports = {
         }
     },
 
-    fix: function (n, encode) {
+    fix: function (n, encode, wrap) {
         var fixed;
         if (n && n !== "0x" && !n.error && !n.message) {
             if (encode && n.constructor === String) {
@@ -416,7 +419,7 @@ module.exports = {
                 } else {
                     fixed = this.bignum(n).mul(this.constants.ONE).round();
                 }
-                if (fixed && fixed.gte(this.constants.BYTES_32)) {
+                if (wrap && fixed && fixed.gte(this.constants.MAX)) {
                     fixed = fixed.sub(this.constants.MOD);
                 }
                 if (encode) {
