@@ -23,7 +23,7 @@ module.exports = {
 
     debug: false,
 
-    version: "0.5.1",
+    version: "0.5.2",
 
     constants: {
         ONE: new BigNumber(10).toPower(new BigNumber(18)),
@@ -221,9 +221,9 @@ module.exports = {
                     break;
                 case BigNumber:
                     if (wrap) {
-                        h = this.wrap(n).toString(16);
+                        h = this.wrap(n.floor()).toString(16);
                     } else {
-                        h = n.toString(16);
+                        h = n.floor().toString(16);
                     }
                     break;
                 case String:
@@ -395,7 +395,7 @@ module.exports = {
                     } else if (encoding === "string") {
                         bn = bn.toFixed();
                     } else if (encoding === "hex") {
-                        bn = this.prefix_hex(bn.toString(16));
+                        bn = this.prefix_hex(bn.floor().toString(16));
                     }
                 }
             }
