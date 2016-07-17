@@ -15,12 +15,14 @@ module.exports = {
 
     debug: false,
 
-    version: "0.5.0",
+    version: "0.5.1",
 
     constants: {
         ONE: new BigNumber(10).toPower(new BigNumber(18)),
         BYTES_32: new BigNumber(2).toPower(new BigNumber(252)),
-        MAX: new BigNumber(2).toPower(new BigNumber(255)),
+        // Serpent integers are bounded by [-2^255, 2^255-1]
+        SERPINT_MIN: new BigNumber(2).toPower(new BigNumber(255)).neg(),
+        SERPINT_MAX: new BigNumber(2).toPower(new BigNumber(255)).minus(new BigNumber(1)),
         MOD: new BigNumber(2).toPower(new BigNumber(256))
     },
 
@@ -210,7 +212,11 @@ module.exports = {
                     h = this.bignum(n, "hex", wrap);
                     break;
                 case BigNumber:
-                    h = n.toString(16);
+                    if (wrap) {
+                        h = this.wrap(n).toString(16);
+                    } else {
+                        h = n.toString(16);
+                    }
                     break;
                 case String:
                     if (n === "-0x0") {
@@ -218,7 +224,7 @@ module.exports = {
                     } else if (n === "-0") {
                         h = "0";
                     } else if (n.slice(0, 3) === "-0x" || n.slice(0, 2) === "-0x") {
-                        h = n;
+                        h = this.bignum(n, "hex", wrap);
                     } else {
                         if (isFinite(n)) {
                             h = this.bignum(n, "hex", wrap);
@@ -374,9 +380,7 @@ module.exports = {
                     }
             }
             if (bn !== undefined && bn !== null && bn.constructor === BigNumber) {
-                if (wrap && bn.gte(this.constants.MAX)) {
-                    bn = bn.sub(this.constants.MOD);
-                }
+                if (wrap) bn = this.wrap(bn);
                 if (encoding) {
                     if (encoding === "number") {
                         bn = bn.toNumber();
@@ -391,6 +395,17 @@ module.exports = {
         } else {
             return n;
         }
+    },
+
+    wrap: function (bn) {
+        if (bn === undefined || bn === null) return bn;
+        if (bn.constructor !== BigNumber) bn = this.bignum(bn);
+        if (bn.gt(this.constants.SERPINT_MAX)) {
+            return bn.sub(this.constants.MOD);
+        } else if (bn.lt(this.constants.SERPINT_MIN)) {
+            return bn.plus(this.constants.MOD);
+        }
+        return bn;
     },
 
     fix: function (n, encode, wrap) {
@@ -411,9 +426,7 @@ module.exports = {
                 } else {
                     fixed = this.bignum(n).mul(this.constants.ONE).round();
                 }
-                if (wrap && fixed && fixed.gte(this.constants.MAX)) {
-                    fixed = fixed.sub(this.constants.MOD);
-                }
+                if (wrap) fixed = this.wrap(fixed);
                 if (encode) {
                     if (encode === "string") {
                         fixed = fixed.toFixed();
