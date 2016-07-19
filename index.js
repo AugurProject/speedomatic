@@ -476,12 +476,12 @@ module.exports = {
         }
     },
 
-    string: function (n) {
-        return this.bignum(n, "string");
+    string: function (n, wrap) {
+        return this.bignum(n, "string", wrap);
     },
 
-    number: function (s) {
-        return this.bignum(s, "number");
+    number: function (s, wrap) {
+        return this.bignum(s, "number", wrap);
     },
 
     chunk: function (total_len, chunk_len) {
