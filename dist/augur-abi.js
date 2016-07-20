@@ -23,7 +23,7 @@ module.exports = {
 
     debug: false,
 
-    version: "0.5.2",
+    version: "0.5.4",
 
     constants: {
         ONE: new BigNumber(10).toPower(new BigNumber(18)),
@@ -13623,10 +13623,11 @@ module.exports={
   "_args": [
     [
       {
-        "name": "elliptic",
         "raw": "elliptic@^6.2.3",
-        "rawSpec": "^6.2.3",
         "scope": null,
+        "escapedName": "elliptic",
+        "name": "elliptic",
+        "rawSpec": "^6.2.3",
         "spec": ">=6.2.3 <7.0.0",
         "type": "range"
       },
@@ -13644,16 +13645,17 @@ module.exports={
     "tmp": "tmp/elliptic-6.3.1.tgz_1465921413402_0.5202967382501811"
   },
   "_npmUser": {
-    "email": "fedor@indutny.com",
-    "name": "indutny"
+    "name": "indutny",
+    "email": "fedor@indutny.com"
   },
   "_npmVersion": "3.8.6",
   "_phantomChildren": {},
   "_requested": {
-    "name": "elliptic",
     "raw": "elliptic@^6.2.3",
-    "rawSpec": "^6.2.3",
     "scope": null,
+    "escapedName": "elliptic",
+    "name": "elliptic",
+    "rawSpec": "^6.2.3",
     "spec": ">=6.2.3 <7.0.0",
     "type": "range"
   },
@@ -13668,8 +13670,8 @@ module.exports={
   "_spec": "elliptic@^6.2.3",
   "_where": "/home/jack/src/augur-abi/node_modules/secp256k1",
   "author": {
-    "email": "fedor@indutny.com",
-    "name": "Fedor Indutny"
+    "name": "Fedor Indutny",
+    "email": "fedor@indutny.com"
   },
   "bugs": {
     "url": "https://github.com/indutny/elliptic/issues"
@@ -13716,8 +13718,8 @@ module.exports={
   "main": "lib/elliptic.js",
   "maintainers": [
     {
-      "email": "fedor@indutny.com",
-      "name": "indutny"
+      "name": "indutny",
+      "email": "fedor@indutny.com"
     }
   ],
   "name": "elliptic",

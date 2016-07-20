@@ -6,10 +6,12 @@ env:
   - CXX=g++-4.8
 
 node_js:
-  - "5.0"
-  - "4.2"
-  - "4.1"
-  - "4.0"
+  - "6.2"
+  - "6.1"
+  - "5"
+  - "4"
+  - "0.12"
+  - "0.11"
   - "iojs"
 
 addons:
@@ -22,7 +24,6 @@ addons:
 
 before_script:
   - npm install
-  - npm install jshint
 
 script:
   - npm run lint
