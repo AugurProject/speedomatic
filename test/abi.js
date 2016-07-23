@@ -804,12 +804,15 @@ describe("Fixed point tests", function () {
     describe("unfix", function () {
         it("fixed-point -> hex", function () {
             assert.strictEqual(abi.unfix(abi.fix(ex_integer_hex, "BigNumber"), "hex"), ex_integer_hex);
+            assert.strictEqual(abi.unfix("0x00000000000000000000000000000000000000000000021a72a75ef8d57ef000", "hex"), "0x26cd");
         });
         it("fixed-point -> string", function () {
             assert.strictEqual(abi.unfix(abi.fix(ex_integer_string, "BigNumber"), "string"), ex_integer_string);
+            assert.strictEqual(abi.unfix("0x00000000000000000000000000000000000000000000021a72a75ef8d57ef000", "string"), "9932.60998812");
         });
         it("fixed-point -> number", function () {
             assert.strictEqual(abi.unfix(abi.fix(ex_integer_string, "BigNumber"), "number"), ex_integer);
+            assert.strictEqual(abi.unfix("0x00000000000000000000000000000000000000000000021a72a75ef8d57ef000", "number"), 9932.60998812);
         });
     });
 });

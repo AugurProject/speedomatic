@@ -462,7 +462,7 @@ module.exports = {
                 }
                 if (unfixed && encode) {
                     if (encode === "hex") {
-                        unfixed = this.prefix_hex(unfixed);
+                        unfixed = this.prefix_hex(unfixed.round());
                     } else if (encode === "string") {
                         unfixed = unfixed.toFixed();
                     } else if (encode === "number") {
