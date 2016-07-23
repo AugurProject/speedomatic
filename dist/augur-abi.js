@@ -23,7 +23,7 @@ module.exports = {
 
     debug: false,
 
-    version: "0.5.4",
+    version: "0.5.6",
 
     constants: {
         ONE: new BigNumber(10).toPower(new BigNumber(18)),
