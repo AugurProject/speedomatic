@@ -23,7 +23,7 @@ module.exports = {
 
     debug: false,
 
-    version: "0.5.6",
+    version: "0.5.7",
 
     constants: {
         ONE: new BigNumber(10).toPower(new BigNumber(18)),
@@ -133,13 +133,14 @@ module.exports = {
         return bytearray.toString("utf8");
     },
 
-    short_string_to_int256: function (s) {
-        if (s.length > 32) s = s.slice(0, 32);
-        return this.prefix_hex(this.pad_right(new Buffer(s, "utf8").toString("hex")));
+    short_string_to_int256: function (shortstring) {
+        var int256 = shortstring;
+        if (int256.length > 32) int256 = int256.slice(0, 32);
+        return this.prefix_hex(this.pad_right(new Buffer(int256, "utf8").toString("hex")));
     },
 
-    int256_to_short_string: function (n) {
-        return new Buffer(this.strip_0x(this.remove_trailing_zeros(n)), "hex").toString("utf8");
+    int256_to_short_string: function (int256) {
+        return new Buffer(this.strip_0x(this.remove_trailing_zeros(int256)), "hex").toString("utf8");
     },
 
     decode_hex: function (h, strip) {
