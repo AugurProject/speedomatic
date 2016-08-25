@@ -23,7 +23,7 @@ module.exports = {
 
     debug: false,
 
-    version: "0.5.9",
+    version: "0.6.0",
 
     constants: {
         ONE: new BigNumber(10).toPower(new BigNumber(18)),
@@ -344,16 +344,7 @@ module.exports = {
                     bn = n;
                     break;
                 case Number:
-                    if (Math.floor(Math.log(n) / Math.log(10) + 1) <= 15) {
-                        bn = new BigNumber(n, 10);
-                    } else {
-                        n = n.toString();
-                        if (this.is_hex(n)) {
-                            bn = new BigNumber(n, 16);
-                        } else {
-                            bn = new BigNumber(n, 10);
-                        }
-                    }
+                    bn = new BigNumber(n, 10);
                     break;
                 case String:
                     try {
