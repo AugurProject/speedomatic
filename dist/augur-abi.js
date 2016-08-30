@@ -17,13 +17,16 @@ var BigNumber = require("bignumber.js");
 var keccak_256 = require("js-sha3").keccak_256;
 var ethabi = require("ethereumjs-abi");
 
-BigNumber.config({MODULO_MODE: BigNumber.EUCLID});
+BigNumber.config({
+    MODULO_MODE: BigNumber.EUCLID,
+    ROUNDING_MODE: BigNumber.ROUND_HALF_EVEN
+});
 
 module.exports = {
 
     debug: false,
 
-    version: "0.6.1",
+    version: "0.6.2",
 
     constants: {
         ONE: new BigNumber(10).toPower(new BigNumber(18)),
