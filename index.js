@@ -11,14 +11,14 @@ var ethabi = require("ethereumjs-abi");
 
 BigNumber.config({
     MODULO_MODE: BigNumber.EUCLID,
-    ROUNDING_MODE: BigNumber.ROUND_HALF_EVEN
+    ROUNDING_MODE: BigNumber.ROUND_HALF_DOWN
 });
 
 module.exports = {
 
     debug: false,
 
-    version: "0.6.2",
+    version: "0.6.3",
 
     constants: {
         ONE: new BigNumber(10).toPower(new BigNumber(18)),
