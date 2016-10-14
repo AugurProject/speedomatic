@@ -18,7 +18,7 @@ module.exports = {
 
     debug: false,
 
-    version: "0.6.3",
+    version: "0.6.4",
 
     constants: {
         ONE: new BigNumber(10).toPower(new BigNumber(18)),
@@ -123,7 +123,12 @@ module.exports = {
             bytearray = this.strip_0x(bytearray);
         }
         if (!Buffer.isBuffer(bytearray)) {
-            bytearray = new Buffer(bytearray, "hex");
+            try {
+                bytearray = new Buffer(bytearray, "hex");
+            } catch (ex) {
+                console.log("[augur-abi] bytes_to_utf16:", JSON.stringify(bytearray, null, 2));
+                throw ex;
+            }
         }
         return bytearray.toString("utf8");
     },
@@ -191,14 +196,18 @@ module.exports = {
     unfork: function (forked, prefix) {
         if (forked !== null && forked !== undefined && forked.constructor !== Object) {
             var unforked = this.bignum(forked);
-            var superforked = unforked.plus(this.constants.MOD);
-            if (superforked.gte(this.constants.BYTES_32) && superforked.lt(this.constants.MOD)) {
-                unforked = superforked;
+            if (unforked.constructor === BigNumber) {
+                var superforked = unforked.plus(this.constants.MOD);
+                if (superforked.gte(this.constants.BYTES_32) && superforked.lt(this.constants.MOD)) {
+                    unforked = superforked;
+                }
+                if (forked.constructor === BigNumber) return unforked;
+                unforked = this.pad_left(unforked.toString(16));
+                if (prefix) unforked = this.prefix_hex(unforked);
+                return unforked;
+            } else {
+                throw new Error("abi.unfork failed (bad input): " + JSON.stringify(forked));
             }
-            if (forked.constructor === BigNumber) return unforked;
-            unforked = this.pad_left(unforked.toString(16));
-            if (prefix) unforked = this.prefix_hex(unforked);
-            return unforked;
         } else {
             throw new Error("abi.unfork failed (bad input): " + JSON.stringify(forked));
         }
