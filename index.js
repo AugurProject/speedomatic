@@ -18,7 +18,7 @@ module.exports = {
 
     debug: false,
 
-    version: "0.6.4",
+    version: "1.0.0",
 
     constants: {
         ONE: new BigNumber(10).toPower(new BigNumber(18)),
@@ -272,6 +272,7 @@ module.exports = {
         if (s === undefined || s === null || s === "0x") return s;
         if (Buffer.isBuffer(s)) s = s.toString("hex");
         if (s.constructor !== String) s = s.toString(16);
+        if (s.slice(0, 1) === "-") s = this.unfork(s);
         s = this.strip_0x(s);
         if (s.length > 64) {
             if (this.debug) {
@@ -472,6 +473,10 @@ module.exports = {
         } else {
             return n;
         }
+    },
+
+    unfix_signed: function (n, encode) {
+        return this.unfix(this.hex(n, true), encode);
     },
 
     string: function (n, wrap) {

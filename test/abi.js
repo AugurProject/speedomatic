@@ -657,6 +657,14 @@ describe("format_int256", function () {
         input: "0x0",
         expected: "0x0000000000000000000000000000000000000000000000000000000000000000"
     });
+    test({
+        input: "-1234",
+        expected: "0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffb2e"
+    });
+    test({
+        input: "-0x1234",
+        expected: "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffedcc"
+    });
 });
 
 describe("format_address: format ethereum address", function () {
@@ -815,23 +823,31 @@ describe("Fixed point tests", function () {
             assert.strictEqual(abi.unfix("0x00000000000000000000000000000000000000000000021a72a75ef8d57ef000", "number"), 9932.60998812);
         });
     });
+
+    describe("unfix_signed", function () {
+        it("fixed-point -> hex", function () {
+            assert.strictEqual(abi.unfix_signed("0xfffffffffffffffffffffffffffffffffffffffffffffffff21f494c589c0000", "hex"), "-0x1");
+        });
+        it("fixed-point -> string", function () {
+            assert.strictEqual(abi.unfix_signed("0xfffffffffffffffffffffffffffffffffffffffffffffffff21f494c589c0000", "string"), "-1");
+        });
+        it("fixed-point -> number", function () {
+            assert.strictEqual(abi.unfix_signed("0xfffffffffffffffffffffffffffffffffffffffffffffffff21f494c589c0000", "number"), -1);
+        });
+    });
 });
 
 describe("is_numeric", function () {
-
     var test_numbers = [ 1, -2, "1", "10", 2.5, 0, "125000", 2.15315135, -10000 ];
     var test_nans = [ "hello", "testing", NaN, "1oo" ];
-
     it.each(test_numbers, "%s is a number", ["element"], function (element, next) {
         assert(abi.is_numeric(element));
         next();
     });
-    
     it.each(test_nans, "%s is not a number", ["element"], function (element, next) {
         assert(!abi.is_numeric(element));
         next();
     });
-
 });
 
 describe("pad_right", function () {
