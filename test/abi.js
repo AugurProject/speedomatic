@@ -12,10 +12,11 @@ abi.debug = false;
 
 require('it-each')({testPerIteration: true});
 
-function toArray(buffer) {
-  var ab = new Array(buffer.length);
-  for (var i = 0; i < buffer.length; ++i) {
-    ab[i] = "0x" + buffer[i].toString(16);
+function toArray(buf) {
+  var buflen = buf.length;
+  var ab = [];
+  for (var i = 0; i < buflen; i += 2) {
+    ab.push("0x" + buf.slice(i, i + 2).toString(16));
   }
   return ab;
 }
@@ -733,6 +734,30 @@ describe("bytes_to_utf16", function () {
     });
   };
   test({
+    bytes: ["0xe3", "0x81", "0xaa"],
+    utf16: "な"
+  });
+  test({
+    bytes: ["e3", "81", "aa"],
+    utf16: "な"
+  });
+  test({
+    bytes: "e381aa",
+    utf16: "な"
+  });
+  test({
+    bytes: [new Buffer("e3", "hex"), new Buffer("81", "hex"), new Buffer("aa", "hex")],
+    utf16: "な"
+  });
+  test({
+    bytes: 14909866,
+    utf16: "な"
+  });
+  test({
+    bytes: new BigNumber("0xe381aa", 16),
+    utf16: "な"
+  });
+  test({
     bytes: "e381aae3819ce3819de38293e381aae381abe79c9fe589a3e381aae38293e381a0efbc9f20e282ace29883",
     utf16: "なぜそんなに真剣なんだ？ €☃"
   });
@@ -743,6 +768,112 @@ describe("bytes_to_utf16", function () {
   test({
     bytes: toArray("e381aae3819ce3819de38293e381aae381abe79c9fe589a3e381aae38293e381a0efbc9f20e282ace29883"),
     utf16: "なぜそんなに真剣なんだ？ €☃"
+  });
+  test({
+    bytes: "527573736961204b484c202d204a6f6b657269742056530944696e616d6f2052696761202d2d2057696c6c2074686520326e6420517561727465722048617665206d6f7265206f72206c657373207468616e20332e3520476f616c733f",
+    utf16: "Russia KHL - Jokerit VS\tDinamo Riga -- Will the 2nd Quarter Have more or less than 3.5 Goals?"
+  });
+  test({
+    bytes: toArray("527573736961204b484c202d204a6f6b657269742056530944696e616d6f2052696761202d2d2057696c6c2074686520326e6420517561727465722048617665206d6f7265206f72206c657373207468616e20332e3520476f616c733f"),
+    utf16: "Russia KHL - Jokerit VS\tDinamo Riga -- Will the 2nd Quarter Have more or less than 3.5 Goals?"
+  });
+  test({
+    bytes: [
+      "0x52",
+      "0x75",
+      "0x73",
+      "0x73",
+      "0x69",
+      "0x61",
+      "0x20",
+      "0x4b",
+      "0x48",
+      "0x4c",
+      "0x20",
+      "0x2d",
+      "0x20",
+      "0x4a",
+      "0x6f",
+      "0x6b",
+      "0x65",
+      "0x72",
+      "0x69",
+      "0x74",
+      "0x20",
+      "0x56",
+      "0x53",
+      "0x9",
+      "0x44",
+      "0x69",
+      "0x6e",
+      "0x61",
+      "0x6d",
+      "0x6f",
+      "0x20",
+      "0x52",
+      "0x69",
+      "0x67",
+      "0x61",
+      "0x20",
+      "0x2d",
+      "0x2d",
+      "0x20",
+      "0x57",
+      "0x69",
+      "0x6c",
+      "0x6c",
+      "0x20",
+      "0x74",
+      "0x68",
+      "0x65",
+      "0x20",
+      "0x32",
+      "0x6e",
+      "0x64",
+      "0x20",
+      "0x51",
+      "0x75",
+      "0x61",
+      "0x72",
+      "0x74",
+      "0x65",
+      "0x72",
+      "0x20",
+      "0x48",
+      "0x61",
+      "0x76",
+      "0x65",
+      "0x20",
+      "0x6d",
+      "0x6f",
+      "0x72",
+      "0x65",
+      "0x20",
+      "0x6f",
+      "0x72",
+      "0x20",
+      "0x6c",
+      "0x65",
+      "0x73",
+      "0x73",
+      "0x20",
+      "0x74",
+      "0x68",
+      "0x61",
+      "0x6e",
+      "0x20",
+      "0x33",
+      "0x2e",
+      "0x35",
+      "0x20",
+      "0x47",
+      "0x6f",
+      "0x61",
+      "0x6c",
+      "0x73",
+      "0x3f"
+    ],
+    utf16: "Russia KHL - Jokerit VS\tDinamo Riga -- Will the 2nd Quarter Have more or less than 3.5 Goals?"
   });
 });
 

@@ -18,7 +18,7 @@ module.exports = {
 
   debug: false,
 
-  version: "1.0.0",
+  version: "1.1.0",
 
   constants: {
     ONE: new BigNumber(10).toPower(new BigNumber(18)),
@@ -104,33 +104,41 @@ module.exports = {
   },
 
   bytes_to_utf16: function (bytearray) {
+    var el, bytestring;
+    if (Buffer.isBuffer(bytearray)) {
+      return new Buffer(bytearray, "hex").toString("utf8");
+    }
     if (bytearray.constructor === Array) {
-      var tmp = '';
-      for (var i = 0; i < bytearray.length; ++i) {
-        if (bytearray[i] !== undefined && bytearray[i] !== null) {
-          if (bytearray[i].constructor === String) {
-            tmp += this.strip_0x(bytearray[i]);
-          } else if (bytearray[i].constructor === Number) {
-            tmp += bytearray[i].toString(16);
-          } else if (Buffer.isBuffer(bytearray[i])) {
-            tmp += bytearray[i].toString("hex");
+      bytestring = '';
+      for (var i = 0, numBytes = bytearray.length; i < numBytes; ++i) {
+        el = bytearray[i];
+        if (el !== undefined && el !== null) {
+          if (el.constructor === String) {
+            el = this.strip_0x(el);
+            if (el.length % 2 !== 0) el = '0' + el;
+            bytestring += el;
+          } else if (el.constructor === Number) {
+            el = el.toString(16);
+            if (el.length % 2 !== 0) el = '0' + el;
+            bytestring += el;
+          } else if (Buffer.isBuffer(el)) {
+            bytestring += el.toString("hex");
           }
         }
       }
-      bytearray = tmp;
     }
     if (bytearray.constructor === String) {
-      bytearray = this.strip_0x(bytearray);
+      bytestring = this.strip_0x(bytearray);
+    } else if (bytearray.constructor === Number || bytearray.constructor === BigNumber) {
+      bytestring = bytearray.toString(16);
     }
-    if (!Buffer.isBuffer(bytearray)) {
-      try {
-        bytearray = new Buffer(bytearray, "hex");
-      } catch (ex) {
-        console.log("[augur-abi] bytes_to_utf16:", JSON.stringify(bytearray, null, 2));
-        throw ex;
-      }
+    try {
+      bytestring = new Buffer(bytestring, "hex");
+    } catch (ex) {
+      console.error("[augur-abi] bytes_to_utf16:", JSON.stringify(bytestring, null, 2));
+      throw ex;
     }
-    return bytearray.toString("utf8");
+    return bytestring.toString("utf8");
   },
 
   short_string_to_int256: function (shortstring) {
@@ -570,13 +578,9 @@ module.exports = {
   },
 
   parse_params: function (params) {
-    if (params !== undefined && params !== null &&
-            params !== [] && params !== "")
-        {
+    if (params !== undefined && params !== null && params !== [] && params !== "") {
       if (params.constructor === String) {
-        if (params.slice(0,1) === "[" &&
-                    params.slice(-1) === "]")
-                {
+        if (params.slice(0,1) === "[" && params.slice(-1) === "]") {
           params = JSON.parse(params);
         }
         if (params.constructor === String) {
