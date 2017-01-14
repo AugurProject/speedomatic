@@ -742,6 +742,14 @@ describe("bytes_to_utf16", function () {
     utf16: "な"
   });
   test({
+    bytes: [227, 129, 170],
+    utf16: "な"
+  });
+  test({
+    bytes: [new BigNumber("0xe3", 16), new BigNumber("0x81", 16), new BigNumber("0xaa", 16)],
+    utf16: "な"
+  });
+  test({
     bytes: "e381aa",
     utf16: "な"
   });

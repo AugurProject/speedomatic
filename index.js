@@ -18,7 +18,7 @@ module.exports = {
 
   debug: false,
 
-  version: "1.1.0",
+  version: "1.1.1",
 
   constants: {
     ONE: new BigNumber(10).toPower(new BigNumber(18)),
@@ -117,7 +117,7 @@ module.exports = {
             el = this.strip_0x(el);
             if (el.length % 2 !== 0) el = '0' + el;
             bytestring += el;
-          } else if (el.constructor === Number) {
+          } else if (el.constructor === Number || el.constructor === BigNumber) {
             el = el.toString(16);
             if (el.length % 2 !== 0) el = '0' + el;
             bytestring += el;
