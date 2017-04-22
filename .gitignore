@@ -2,3 +2,4 @@ node_modules
 *.log
 coverage
 overflow
+test/browser/bundle.js

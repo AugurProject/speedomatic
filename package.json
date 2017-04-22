@@ -1,6 +1,6 @@
 {
   "name": "augur-abi",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Contract ABI serialization",
   "author": "The Augur Developers <team@augur.net>",
   "license": "MIT",
@@ -11,7 +11,9 @@
   "scripts": {
     "test": "mocha test/*.js",
     "lint": "jshint index.js",
-    "coverage": "istanbul cover -x **/lib/** ./node_modules/mocha/bin/_mocha test/*.js"
+    "coverage": "istanbul cover -x **/lib/** ./node_modules/mocha/bin/_mocha test/*.js",
+    "build": "browserify ./exports.js > ./dist/augur-abi.js && uglifyjs ./dist/augur-abi.js > ./dist/augur-abi.min.js",
+    "build:tests": "browserify test/*.js > test/browser/bundle.js"
   },
   "repository": {
     "type": "git",
