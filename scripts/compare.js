@@ -48,66 +48,66 @@ function compare(opts) {
 
 // int256
 compare({
-  method: "lololol",
-  signature: "i",
+  name: "lololol",
+  signature: ["int256"],
   params: 1010101
 });
 // compare({
-//   method: "lololol",
-//   signature: "i",
+//   name: "lololol",
+//   signature: ["int256"],
 //   params: "1010101"
 // });
 // compare({
-//   method: "lololol",
-//   signature: "i",
+//   name: "lololol",
+//   signature: ["int256"],
 //   params: "0xf69b5"
 // });
 // compare({
-//   method: "lololol",
-//   signature: "i",
+//   name: "lololol",
+//   signature: ["int256"],
 //   params: "0x6fc820f34c3bc08c0072da61b8dcfd4d9bd78f4fc5de7eb351ac81d1146a5fe8"
 // });
 // compare({
-//   method: "lololol",
-//   signature: "i",
+//   name: "lololol",
+//   signature: ["int256"],
 //   params: "-0x4af42be82cbfe625ff3a0efe7ac088e10683d3d034c6e5c7fdbaa603b267faae"
 // })
 // compare({
-//   method: "lololol",
+//   name: "lololol",
 //   signature: "iii",
 //   params: [1010101, "0x0f69b5", "0x6fc820f34c3bc08c0072da61b8dcfd4d9bd78f4fc5de7eb351ac81d1146a5fe8"]
 // });
 
 // bytes
 compare({
-  method: "lololol",
-  signature: "s",
+  name: "lololol",
+  signature: ["bytes"],
   params: "1010101"
 });
 compare({
-  method: "lololol",
-  signature: "s",
+  name: "lololol",
+  signature: ["bytes"],
   params: "0x0f69b5"
 });
 compare({
-  method: "lololol",
-  signature: "s",
+  name: "lololol",
+  signature: ["bytes"],
   params: "hello world!"
 });
 compare({
-  method: "lololol",
-  signature: "s",
+  name: "lololol",
+  signature: ["bytes"],
   params: "hello world hello world hello world hello world hello world hello world hello world"
 });
 
 // int256[]
 // compare({
-//   method: "lololol",
-//   signature: "a",
+//   name: "lololol",
+//   signature: ["int256[]"],
 //   params: [[1, 2, 3, 4, 5]]
 // });
 // compare({
-//   method: "lololol",
-//   signature: "a",
+//   name: "lololol",
+//   signature: ["int256[]"],
 //   params: [["0x0f69b5", "-0x4af42be82cbfe625ff3a0efe7ac088e10683d3d034c6e5c7fdbaa603b267faae"]]
 // });

@@ -18,7 +18,7 @@ module.exports = {
 
   debug: false,
 
-  version: "1.2.1",
+  version: "1.3.0",
 
   constants: {
     ONE: new BigNumber(10).toPower(new BigNumber(18)),
@@ -572,7 +572,7 @@ module.exports = {
   encode: function (tx) {
     tx.signature = tx.signature || [];
     return this.prefix_hex(Buffer.concat([
-      ethabi.methodID(tx.method, tx.signature),
+      ethabi.methodID(tx.name, tx.signature),
       ethabi.rawEncode(tx.signature, tx.params)
     ]).toString("hex"));
   }

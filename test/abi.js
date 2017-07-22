@@ -1568,67 +1568,67 @@ describe("encode_hex", function () {
 
 describe("encode", function () {
   var test = function (t) {
-    it(t.method + "(" + JSON.stringify(t.params) + ":" + t.signature + ") -> " + t.expected, function () {
-      var prefix = abi.abi.methodID(t.method, t.signature);
+    it(t.name + "(" + JSON.stringify(t.params) + ":" + t.signature + ") -> " + t.expected, function () {
+      var prefix = abi.abi.methodID(t.name, t.signature);
       var encoded = abi.encode(t);
       assert.strictEqual(encoded, t.expected);
     });
   };
   describe("No parameters", function () {
     test({
-      method: "ten",
+      name: "ten",
       signature: [],
       expected: "0x643ceff9"
     });
     test({
-      method: "faucet",
+      name: "faucet",
       signature: [],
       expected: "0xde5f72fd"
     });
     test({
-      method: "getBranches",
+      name: "getBranches",
       signature: [],
       expected: "0xc3387858"
     });
   });
   describe("Single int256 parameter", function () {
     test({
-      method: 'getDescription',
+      name: 'getDescription',
       signature: ["int256"],
       params: ['0xe64fcc433c2cd3292766aa5c9af64f6f9c6d73ada01fce0bfba4a9952af16bf7'],
       expected: "0x37e7ee00"+
                 "e64fcc433c2cd3292766aa5c9af64f6f9c6d73ada01fce0bfba4a9952af16bf7"
     });
     test({
-      method: "double",
+      name: "double",
       signature: ["int256"],
       params: [3],
       expected: "0x6ffa1caa"+
                 "0000000000000000000000000000000000000000000000000000000000000003"
     });
     test({
-      method: "getMarkets",
+      name: "getMarkets",
       signature: ["int256"],
       params: [1010101],
       expected: "0xb3903c8a"+
                 "00000000000000000000000000000000000000000000000000000000000f69b5"
     });
     test({
-      method: "getVotePeriod",
+      name: "getVotePeriod",
       signature: ["int256"],
       params: [1010101],
       expected: "0x7a66d7ca"+
                 "00000000000000000000000000000000000000000000000000000000000f69b5"
     });
     test({
-      method: "getDescription",
+      name: "getDescription",
       signature: ["int256"],
       params: ["0xb2a6de45f349b5ac384b01a785e640f519f0a8597ab2031c964c7f572d96b13c"],
       expected: "0x37e7ee00"+
                 "b2a6de45f349b5ac384b01a785e640f519f0a8597ab2031c964c7f572d96b13c"
     });
     test({
-      method: "getEventInfo",
+      name: "getEventInfo",
       signature: ["int256"],
       params: ["0xb2a6de45f349b5ac384b01a785e640f519f0a8597ab2031c964c7f572d96b13c"],
       expected: "0x1aecdb5b"+
@@ -1637,7 +1637,7 @@ describe("encode", function () {
   });
   describe("Multiple int256 parameters", function () {
     test({
-      method: "multiply",
+      name: "multiply",
       signature: ["int256", "int256"],
       params: [2, 3],
       expected: "0x3c4308a8"+
@@ -1645,7 +1645,7 @@ describe("encode", function () {
                 "0000000000000000000000000000000000000000000000000000000000000003"
     });
     test({
-      method: "sendReputation",
+      name: "sendReputation",
       signature: ["int256", "int256", "int256"],
       params: [
         1010101,
@@ -1660,7 +1660,7 @@ describe("encode", function () {
   });
   describe("Single int256[] parameter", function () {
     test({
-      method: "double",
+      name: "double",
       signature: ["int256[]"],
       params: [[3]],
       expected: "0x08de53e9"+
@@ -1669,7 +1669,7 @@ describe("encode", function () {
                 "0000000000000000000000000000000000000000000000000000000000000003"
     });
     test({
-      method: "double",
+      name: "double",
       signature: ["int256[]"],
       params: [[2, 3]],
       expected: "0x08de53e9"+
@@ -1679,7 +1679,7 @@ describe("encode", function () {
                 "0000000000000000000000000000000000000000000000000000000000000003"
     });
     test({
-      method: "double",
+      name: "double",
       signature: ["int256[]"],
       params: [[4, 7]],
       expected: "0x08de53e9"+
@@ -1689,7 +1689,7 @@ describe("encode", function () {
                 "0000000000000000000000000000000000000000000000000000000000000007"
     });
     test({
-      method: "double",
+      name: "double",
       signature: ["int256[]"],
       params: [[1, 2, 3]],
       expected: "0x08de53e9"+
@@ -1702,7 +1702,7 @@ describe("encode", function () {
   });
   describe("Multiple int256[] parameters", function () {
     test({
-      method: "testMethod",
+      name: "testMethod",
       signature: ["int256[]", "int256[]"],
       params: [[1, 2], [3, 4]],
       expected: "0x24c55417"+
@@ -1718,7 +1718,7 @@ describe("encode", function () {
   });
   describe("Mixed parameters", function () {
     test({
-      method: "testMethod",
+      name: "testMethod",
       signature: ["bytes", "int256", "int256[]"],
       params: ["gavofyork", 1, [1, 2, 3]],
       expected: "0x542b5456"+
@@ -1733,7 +1733,7 @@ describe("encode", function () {
                 "0000000000000000000000000000000000000000000000000000000000000003"
     });
     test({
-      method: "testMethod",
+      name: "testMethod",
       signature: ["bytes", "int256", "int256[]"],
       params: ["☃", 1, [1, 2, 3]],
       expected: "0x542b5456"+
@@ -1748,7 +1748,7 @@ describe("encode", function () {
                 "0000000000000000000000000000000000000000000000000000000000000003" 
     });
     test({
-      method: "testMethod",
+      name: "testMethod",
       signature: ["bytes", "int256", "int256[]"],
       params: ["€", 1, [1, 2, 3]],
       expected: "0x542b5456"+
@@ -1763,7 +1763,7 @@ describe("encode", function () {
                 "0000000000000000000000000000000000000000000000000000000000000003"
     });
     test({
-      method: "testMethod",
+      name: "testMethod",
       signature: ["bytes", "int256", "int256[]"],
       params: ["漢字", 1, [1, 2, 3]],
       expected: "0x542b5456"+
@@ -1778,7 +1778,7 @@ describe("encode", function () {
                 "0000000000000000000000000000000000000000000000000000000000000003"
     });
     test({
-      method: "createMarket",
+      name: "createMarket",
       signature: ["int256", "bytes", "int256", "int256", "int256", "int256[]"],
       params: [1, "gavofyork", 2, 3, 4, [5, 6, 7]],
       expected: "0x08d19b3f"+
@@ -1796,7 +1796,7 @@ describe("encode", function () {
                 "0000000000000000000000000000000000000000000000000000000000000007"
     });
     test({
-      method: "slashRep",
+      name: "slashRep",
       signature: ["int256", "int256", "int256", "int256[]", "int256"],
       params: [
         "0x38a820692912b5f7a3bfefc2a1d4826e1da6beaed5fac6de3d22b18132133991",
@@ -1818,7 +1818,7 @@ describe("encode", function () {
                 "0000000000000000000000000000000000000000000000000000000000000001"
     });
     test({
-      method: "createEvent",
+      name: "createEvent",
       signature: ["int256", "bytes", "int256", "int256", "int256", "int256"],
       params: [
         "0x38a820692912b5f7a3bfefc2a1d4826e1da6beaed5fac6de3d22b18132133991",
@@ -1835,7 +1835,7 @@ describe("encode", function () {
                 "6d79206576656e74000000000000000000000000000000000000000000000000"
     });
     test({
-      method: "createEvent",
+      name: "createEvent",
       signature: ["int256", "bytes", "int256", "int256", "int256", "int256", "int256"],
       params: [
         "0x38a820692912b5f7a3bfefc2a1d4826e1da6beaed5fac6de3d22b18132133991",
@@ -1853,7 +1853,7 @@ describe("encode", function () {
                 "6175677572207261676566657374203230313500000000000000000000000000"
     });
     test({
-      method: "createEvent",
+      name: "createEvent",
       signature: ["int256", "bytes", "int256", "int256", "int256", "int256", "int256"],
       params: [
         "0x3d595622e5444dd258670ab405b82a467117bd9377dc8fa8c4530528242fe0c5",
@@ -1873,7 +1873,7 @@ describe("encode", function () {
                 "7220427265616b64616e63696e6720436f6d7065746974696f6e3f0000000000"
     });
     test({
-      method: "createMarket",
+      name: "createMarket",
       signature: ["int256", "bytes", "int256", "int256", "int256", "int256[]"],
       params: [
         "0x38a820692912b5f7a3bfefc2a1d4826e1da6beaed5fac6de3d22b18132133991",
@@ -1900,7 +1900,7 @@ describe("encode", function () {
                 "412b3c588f9be08d54e99bf5095ef910c5e84080f048e3af8a2718b7b693cb83"
     });
     test({
-      method: "createMarket",
+      name: "createMarket",
       signature: ["int256", "bytes", "int256", "int256", "int256", "int256[]", "int256"],
       params: [
         "0x38a820692912b5f7a3bfefc2a1d4826e1da6beaed5fac6de3d22b18132133991",
@@ -1929,9 +1929,9 @@ describe("encode", function () {
                 "412b3c588f9be08d54e99bf5095ef910c5e84080f048e3af8a2718b7b693cb83"
     });
 
-        // negative event hash
+    // negative event hash
     test({
-      method: "createMarket",
+      name: "createMarket",
       signature: ["int256", "bytes", "int256", "int256", "int256", "int256[]", "int256"],
       params: [
         "0x38a820692912b5f7a3bfefc2a1d4826e1da6beaed5fac6de3d22b18132133991",
@@ -1957,7 +1957,7 @@ describe("encode", function () {
     });
     test({
       print: true,
-      method: "createMarket",
+      name: "createMarket",
       signature: ["int256", "bytes", "int256", "int256", "int256", "int256[]", "int256"],
       params: [
         1010101,
