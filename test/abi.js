@@ -669,13 +669,11 @@ describe("format_int256", function () {
 });
 
 describe("format_address: format ethereum address", function () {
-
   var test = function (t) {
     it(t.address + " -> " + t.expected, function () {
-      assert.strictEqual(abi.format_address(t.address), t.expected);
+      assert.deepEqual(abi.format_address(t.address), t.expected);
     });
   };
-
   test({
     address: "0x000000000000000000000000639b41c4d3d399894f2a57894278e1653e7cd24c",
     expected: "0x639b41c4d3d399894f2a57894278e1653e7cd24c"
@@ -724,7 +722,14 @@ describe("format_address: format ethereum address", function () {
     address: "0x000000000000000000000000b41c4d3d399894f2a57894278e1653e7cd24c",
     expected: "0x000b41c4d3d399894f2a57894278e1653e7cd24c"
   });
-
+  test({
+    address: ["1", "2", "10"],
+    expected: [
+      "0x0000000000000000000000000000000000000001",
+      "0x0000000000000000000000000000000000000002",
+      "0x0000000000000000000000000000000000000010"
+    ]
+  });
 });
 
 describe("bytes_to_utf16", function () {

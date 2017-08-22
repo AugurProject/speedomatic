@@ -18,7 +18,7 @@ module.exports = {
 
   debug: false,
 
-  version: "1.3.0",
+  version: "1.3.1",
 
   constants: {
     ONE: new BigNumber(10).toPower(new BigNumber(18)),
@@ -324,6 +324,13 @@ module.exports = {
   },
 
   format_address: function (addr) {
+    if (addr == null) return addr;
+    if (Array.isArray(addr)) {
+      for (var i = 0, n = addr.length; i < n; ++i) {
+        addr[i] = this.format_address(addr[i]);
+      }
+      return addr;
+    }
     if (addr && addr.constructor === String) {
       addr = this.strip_0x(addr);
       while (addr.length > 40 && addr.slice(0, 1) === "0") {
