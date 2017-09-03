@@ -1,45 +1,38 @@
 {
-  "name": "augur-abi",
-  "version": "1.3.1",
-  "description": "Contract ABI serialization",
+  "name": "speedomatic",
+  "version": "2.0.0",
+  "description": "Grab bag of formatting and ABI encoding/decoding functions",
   "author": "The Augur Developers <team@augur.net>",
   "license": "MIT",
-  "main": "index.js",
+  "main": "src/index.js",
   "directories": {
+    "src": "src",
     "test": "test"
   },
   "scripts": {
-    "test": "mocha test/*.js",
-    "lint": "jshint index.js",
-    "coverage": "istanbul cover -x **/lib/** ./node_modules/mocha/bin/_mocha test/*.js",
-    "build": "browserify ./exports.js > ./dist/augur-abi.js && uglifyjs ./dist/augur-abi.js > ./dist/augur-abi.min.js",
+    "test": "mocha",
+    "lint": "eslint src && eslint test/*.js",
+    "build": "browserify ./exports.js > ./dist/speedomatic.js && uglifyjs ./dist/speedomatic.js > ./dist/speedomatic.min.js",
     "build:tests": "browserify test/*.js > test/browser/bundle.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AugurProject/augur-abi.git"
+    "url": "git+https://github.com/AugurProject/speedomatic.git"
   },
   "bugs": {
-    "url": "https://github.com/AugurProject/augur-abi/issues"
+    "url": "https://github.com/AugurProject/speedomatic/issues"
   },
-  "homepage": "https://github.com/AugurProject/augur-abi#readme",
+  "homepage": "https://github.com/AugurProject/speedomatic#readme",
   "dependencies": {
     "bignumber.js": "2.3.0",
-    "ethereumjs-abi": "0.6.2",
-    "js-sha3": "0.3.1"
+    "ethereumjs-abi": "0.6.4"
   },
   "devDependencies": {
-    "babel-preset-es2015": "^6.18.0",
-    "babel-preset-stage-0": "^6.16.0",
-    "browserify": "^11.0.1",
-    "chai": "^3.2.0",
+    "chai": "^3.0.0",
     "coveralls": "^2.11.4",
-    "del": "^1.2.1",
-    "gulp": "^3.9.0",
+    "eslint": "^3.17.1",
     "istanbul": "^0.3.18",
-    "it-each": "^0.3.1",
-    "jshint": "^2.8.0",
-    "mocha": "^2.2.5",
-    "uglify-js": "^2.4.24"
+    "mocha": "3.2.0",
+    "mocha-lcov-reporter": "0.0.2"
   }
 }
