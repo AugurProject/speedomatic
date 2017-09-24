@@ -1,30 +1,13 @@
 "use strict";
 
-var prefixHex = require("./prefix-hex");
+var rawEncode = require("ethereumjs-abi").rawEncode;
+var removeTrailingZeros = require("./remove-trailing-zeros");
 
 // convert bytes to ABI format
-function abiEncodeBytes(str, toArray) {
-  var hexbyte, hex, i, len;
-  if (str && str.constructor === Object || Array.isArray(str)) {
-    str = JSON.stringify(str);
-  }
-  len = str.length;
-  if (toArray) {
-    hex = [];
-    for (i = 0; i < len; ++i) {
-      hexbyte = str.charCodeAt(i).toString(16);
-      if (hexbyte.length === 1) hexbyte = "0" + hexbyte;
-      hex.push(prefixHex(hexbyte));
-    }
-  } else {
-    hex = "";
-    for (i = 0; i < len; ++i) {
-      hexbyte = str.charCodeAt(i).toString(16);
-      if (hexbyte.length === 1) hexbyte = "0" + hexbyte;
-      hex += hexbyte;
-    }
-  }
-  return hex;
+function abiEncodeBytes(bytesToEncode, toArray, isPadded) {
+  var abiEncodedBytes = rawEncode(["bytes"], [bytesToEncode]).toString("hex");
+  if (isPadded) return abiEncodedBytes;
+  return removeTrailingZeros(abiEncodedBytes).slice(128);
 }
 
 module.exports = abiEncodeBytes;
