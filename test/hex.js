@@ -45,7 +45,7 @@ describe("hex: hexadecimal conversion", function () {
     {value: [1, 2, "3"], expected: ["0x1", "0x2", "0x3"]},
     {value: [0], expected: ["0x0"]},
     {value: ["0x1", new BigNumber(2), -2, 0, "1010101"], expected: ["0x1", "0x2", "-0x2", "0x0", "0xf69b5"]},
-    {value: Buffer.from("0f69b5", "hex"), expected: "0x0f69b5"}
+    {value: Buffer.from("0f69b5", "hex"), expected: "0xf69b5"}
   ];
   tests.forEach(function (t) {
     it("should turn " + t.value + " to " + t.expected, function () {

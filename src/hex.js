@@ -11,7 +11,7 @@ function hex(n, isWrapped) {
   if (n !== undefined && n !== null && n.constructor) {
     switch (n.constructor) {
       case Buffer:
-        h = n.toString("hex");
+        h = hex(prefixHex(n.toString("hex")), isWrapped);
         break;
       case Object:
         h = abiEncodeBytes(JSON.stringify(n));
