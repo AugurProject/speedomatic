@@ -1,6 +1,6 @@
 {
   "name": "speedomatic",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Grab bag of formatting and ABI encoding/decoding functions",
   "author": "The Augur Developers <team@augur.net>",
   "license": "MIT",
