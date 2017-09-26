@@ -28,10 +28,10 @@
     "ethereumjs-abi": "0.6.4"
   },
   "devDependencies": {
-    "chai": "^3.0.0",
-    "coveralls": "^2.11.4",
-    "eslint": "^3.17.1",
-    "istanbul": "^0.3.18",
+    "chai": "3.5.0",
+    "coveralls": "2.11.3",
+    "eslint": "3.17.1",
+    "istanbul": "0.4.1",
     "mocha": "3.2.0",
     "mocha-lcov-reporter": "0.0.2"
   }
