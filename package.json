@@ -13,7 +13,8 @@
     "test": "mocha",
     "lint": "eslint src && eslint test/*.js",
     "build": "browserify ./exports.js > ./dist/speedomatic.js && uglifyjs ./dist/speedomatic.js > ./dist/speedomatic.min.js",
-    "build:tests": "browserify test/*.js > test/browser/bundle.js"
+    "build:tests": "browserify test/*.js > test/browser/bundle.js",
+    "coverage": "istanbul cover --include-all-sources --root ./src ./node_modules/mocha/bin/_mocha test"
   },
   "repository": {
     "type": "git",
