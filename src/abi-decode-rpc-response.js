@@ -3,7 +3,9 @@
 var abiDecodeData = require("./abi-decode-data");
 
 function abiDecodeRpcResponse(responseType, abiEncodedRpcResponse) {
-  return abiDecodeData([{type: responseType}], abiEncodedRpcResponse)[0];
+  var decodedRpcResponse = abiDecodeData([{type: responseType}], abiEncodedRpcResponse)[0];
+  if (responseType === "bool") return Boolean(decodedRpcResponse);
+  return decodedRpcResponse;
 }
 
 module.exports = abiDecodeRpcResponse;

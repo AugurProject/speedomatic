@@ -5,7 +5,7 @@ var BigNumber = require("bignumber.js");
 BigNumber.config({MODULO_MODE: BigNumber.EUCLID, ROUNDING_MODE: BigNumber.ROUND_HALF_DOWN});
 
 module.exports = {
-  version: "2.0.3",
+  version: "2.0.4",
   constants: require("./constants"),
   unrollArray: require("./unroll-array"),
   byteArrayToUtf8String: require("./byte-array-to-utf8-string"),

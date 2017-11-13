@@ -16116,7 +16116,9 @@ module.exports = abiDecodeData;
 var abiDecodeData = require("./abi-decode-data");
 
 function abiDecodeRpcResponse(responseType, abiEncodedRpcResponse) {
-  return abiDecodeData([{type: responseType}], abiEncodedRpcResponse)[0];
+  var decodedRpcResponse = abiDecodeData([{type: responseType}], abiEncodedRpcResponse)[0];
+  if (responseType === "bool") return Boolean(decodedRpcResponse);
+  return decodedRpcResponse;
 }
 
 module.exports = abiDecodeRpcResponse;
@@ -16572,7 +16574,7 @@ var BigNumber = require("bignumber.js");
 BigNumber.config({MODULO_MODE: BigNumber.EUCLID, ROUNDING_MODE: BigNumber.ROUND_HALF_DOWN});
 
 module.exports = {
-  version: "2.0.3",
+  version: "2.0.4",
   constants: require("./constants"),
   unrollArray: require("./unroll-array"),
   byteArrayToUtf8String: require("./byte-array-to-utf8-string"),
