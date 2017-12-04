@@ -19,9 +19,9 @@ function unfork(forked, prefix) {
       if (prefix) unforked = prefixHex(unforked);
       return unforked;
     }
-    throw new Error("abi.unfork failed (bad input): " + JSON.stringify(forked));
+    throw new Error("speedomatic.unfork failed (bad input): " + JSON.stringify(forked));
   }
-  throw new Error("abi.unfork failed (bad input): " + JSON.stringify(forked));
+  throw new Error("speedomatic.unfork failed (bad input): " + JSON.stringify(forked));
 }
 
 module.exports = unfork;
