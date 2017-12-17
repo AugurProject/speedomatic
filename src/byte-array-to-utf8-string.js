@@ -35,7 +35,7 @@ function byteArrayToUtf8String(byteArray) {
   try {
     byteString = Buffer.from(byteString, "hex");
   } catch (ex) {
-    console.error("[augur-abi] byteArrayToUtf8String:", JSON.stringify(byteString, null, 2));
+    console.error("[speedomatic] byteArrayToUtf8String:", JSON.stringify(byteString, null, 2));
     throw ex;
   }
   return byteString.toString("utf8");
