@@ -5,7 +5,7 @@ var BigNumber = require("bignumber.js");
 BigNumber.config({MODULO_MODE: BigNumber.EUCLID, ROUNDING_MODE: BigNumber.ROUND_HALF_DOWN});
 
 module.exports = {
-  version: "2.1.0",
+  version: "2.1.1",
   constants: require("./constants"),
   unrollArray: require("./unroll-array"),
   byteArrayToUtf8String: require("./byte-array-to-utf8-string"),
@@ -30,6 +30,7 @@ module.exports = {
   padRight: require("./pad-right"),
   padLeft: require("./pad-left"),
   abiEncodeInt256: require("./abi-encode-int256"),
+  abiEncodeData: require("./abi-encode-data"),
   abiEncodeTransactionPayload: require("./abi-encode-transaction-payload"),
   abiDecodeData: require("./abi-decode-data"),
   abiDecodeRpcResponse: require("./abi-decode-rpc-response"),
