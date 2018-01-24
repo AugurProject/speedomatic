@@ -1,6 +1,6 @@
 {
   "name": "speedomatic",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "Grab bag of formatting and ABI encoding/decoding functions",
   "author": "The Augur Developers <team@augur.net>",
   "license": "MIT",
@@ -26,10 +26,11 @@
   "homepage": "https://github.com/AugurProject/speedomatic#readme",
   "dependencies": {
     "bignumber.js": "2.3.0",
-    "ethereumjs-abi": "0.6.4"
+    "ethereumjs-abi": "0.6.5"
   },
   "devDependencies": {
     "@types/bignumber.js": "4.0.3",
+    "browserify": "11.0.1",
     "chai": "3.5.0",
     "coveralls": "2.11.3",
     "eslint": "3.17.1",
