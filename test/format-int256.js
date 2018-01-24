@@ -8,7 +8,12 @@ var formatInt256 = require("../src/format-int256");
 describe("formatInt256", function () {
   var test = function (t) {
     it(t.input + " -> " + t.expected, function () {
-      assert.strictEqual(formatInt256(t.input), t.expected);
+      var formatted = formatInt256(t.input);
+      if (Array.isArray(t.input)) {
+        assert.deepEqual(formatted, t.expected);
+      } else {
+        assert.strictEqual(formatted, t.expected);
+      }
     });
   };
   test({
@@ -62,5 +67,16 @@ describe("formatInt256", function () {
   test({
     input: "-0x1234",
     expected: "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffedcc"
+  });
+  test({
+    input: ["0x1"],
+    expected: ["0x0000000000000000000000000000000000000000000000000000000000000001"]
+  });
+  test({
+    input: ["-0x1234", "0x1"],
+    expected: [
+      "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffedcc",
+      "0x0000000000000000000000000000000000000000000000000000000000000001"
+    ]
   });
 });
