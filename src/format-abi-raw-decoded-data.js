@@ -3,6 +3,7 @@
 var formatEthereumAddress = require("./format-ethereum-address");
 var hex = require("./hex");
 var prefixHex = require("./prefix-hex");
+var formatInt256 = require("./format-int256");
 
 function formatAbiRawDecodedData(inputType, decodedData) {
   if (inputType === "null") return null;
@@ -15,8 +16,12 @@ function formatAbiRawDecodedData(inputType, decodedData) {
     return formatEthereumAddress(decodedData.toString("hex"));
   } else if (inputType === "bytes") {
     return prefixHex(decodedData.toString("hex"));
+  } else if (inputType.slice(0,7) === "bytes32") {
+    return formatInt256(hex(decodedData));
   } else if (inputType.startsWith("bytes")) {
     return hex(decodedData);
+  } else if (inputType.startsWith("bool")) {
+    return decodedData;
   }
   return decodedData.toString();
 }
