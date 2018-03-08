@@ -16,10 +16,8 @@ function formatAbiRawDecodedData(inputType, decodedData) {
     return formatEthereumAddress(decodedData.toString("hex"));
   } else if (inputType === "bytes") {
     return prefixHex(decodedData.toString("hex"));
-  } else if (inputType.slice(0,7) === "bytes32") {
-    return formatInt256(hex(decodedData));
   } else if (inputType.startsWith("bytes")) {
-    return hex(decodedData);
+    return formatInt256(hex(decodedData));
   } else if (inputType.startsWith("bool")) {
     return decodedData;
   }
