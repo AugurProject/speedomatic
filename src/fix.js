@@ -19,11 +19,10 @@ function fix(n, encoding, isWrapped) {
         fixed[i] = fix(n[i], encoding);
       }
     } else {
-      if (n.constructor === BigNumber) {
-        fixed = n.mul(FXP_ONE).round();
-      } else {
-        fixed = bignum(n).mul(FXP_ONE).round();
+      if (n.constructor !== BigNumber) {
+        n = bignum(n)
       }
+      fixed = n.multipliedBy(FXP_ONE).integerValue();
       if (isWrapped) fixed = wrap(fixed);
       if (encoding) {
         if (encoding === "string") {

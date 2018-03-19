@@ -21,9 +21,9 @@ function hex(n, isWrapped) {
         break;
       case BigNumber:
         if (isWrapped) {
-          h = wrap(n.floor()).toString(16);
+          h = wrap(n.integerValue(BigNumber.ROUND_FLOOR)).toString(16);
         } else {
-          h = n.floor().toString(16);
+          h = n.integerValue(BigNumber.ROUND_FLOOR).toString(16);
         }
         break;
       case String:

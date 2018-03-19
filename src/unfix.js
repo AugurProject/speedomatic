@@ -23,7 +23,7 @@ function unfix(n, encoding) {
       }
       if (unfixed && encoding) {
         if (encoding === "hex") {
-          unfixed = prefixHex(unfixed.round());
+          unfixed = prefixHex(unfixed.integerValue());
         } else if (encoding === "string") {
           unfixed = unfixed.toFixed();
         } else if (encoding === "number") {

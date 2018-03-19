@@ -48,7 +48,7 @@ function bignum(n, encoding, isWrapped) {
         } else if (encoding === "string") {
           bn = bn.toFixed();
         } else if (encoding === "hex") {
-          bn = prefixHex(bn.floor().toString(16));
+          bn = prefixHex(bn.integerValue(BigNumber.ROUND_FLOOR).toString(16));
         }
       }
     }
