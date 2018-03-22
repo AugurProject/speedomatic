@@ -20,7 +20,7 @@ function fix(n, encoding, isWrapped) {
       }
     } else {
       if (n.constructor !== BigNumber) {
-        n = bignum(n)
+        n = bignum(n);
       }
       fixed = n.multipliedBy(FXP_ONE).integerValue();
       if (isWrapped) fixed = wrap(fixed);
