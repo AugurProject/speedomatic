@@ -16,7 +16,7 @@ function unfix(n, encoding) {
         unfixed[i] = unfix(n[i], encoding);
       }
     } else {
-      if (n.constructor === BigNumber) {
+      if (BigNumber.isBigNumber(n)) {
         unfixed = n.dividedBy(FXP_ONE);
       } else {
         unfixed = bignum(n).dividedBy(FXP_ONE);
