@@ -12,7 +12,7 @@ var exDecimalString = "0.123456789";
 
 describe("fix", function () {
   it("should be equal to round(n*2^64)", function () {
-    assert(fix(exDecimal, "BigNumber").eq((new BigNumber(exDecimal)).mul(FXP_ONE).round()));
+    assert(fix(exDecimal, "BigNumber").eq((new BigNumber(exDecimal)).multipliedBy(FXP_ONE).integerValue()));
   });
   it("should return a base 10 string '123456789000000000'", function () {
     assert.strictEqual(fix(exDecimal, "string"), "123456789000000000");

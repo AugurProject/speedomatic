@@ -4,7 +4,7 @@ var BigNumber = require("bignumber.js");
 
 function prefixHex(n) {
   if (n === undefined || n === null || n === "") return n;
-  if (n.constructor === Number || n.constructor === BigNumber) {
+  if (n.constructor === Number || BigNumber.isBigNumber(n)) {
     n = n.toString(16);
   }
   if (n.constructor === String && n.slice(0, 2) !== "0x" && n.slice(0, 3) !== "-0x") {

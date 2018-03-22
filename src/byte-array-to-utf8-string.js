@@ -17,7 +17,7 @@ function byteArrayToUtf8String(byteArray) {
           el = strip0xPrefix(el);
           if (el.length % 2 !== 0) el = "0" + el;
           byteString += el;
-        } else if (el.constructor === Number || el.constructor === BigNumber) {
+        } else if (el.constructor === Number || BigNumber.isBigNumber(el)) {
           el = el.toString(16);
           if (el.length % 2 !== 0) el = "0" + el;
           byteString += el;
@@ -29,7 +29,7 @@ function byteArrayToUtf8String(byteArray) {
   }
   if (byteArray.constructor === String) {
     byteString = strip0xPrefix(byteArray);
-  } else if (byteArray.constructor === Number || byteArray.constructor === BigNumber) {
+  } else if (byteArray.constructor === Number || BigNumber.isBigNumber(byteArray)) {
     byteString = byteArray.toString(16);
   }
   try {

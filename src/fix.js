@@ -19,17 +19,16 @@ function fix(n, encoding, isWrapped) {
         fixed[i] = fix(n[i], encoding);
       }
     } else {
-      if (n.constructor === BigNumber) {
-        fixed = n.mul(FXP_ONE).round();
-      } else {
-        fixed = bignum(n).mul(FXP_ONE).round();
+      if (!BigNumber.isBigNumber(n)) {
+        n = bignum(n);
       }
+      fixed = n.multipliedBy(FXP_ONE).integerValue();
       if (isWrapped) fixed = wrap(fixed);
       if (encoding) {
         if (encoding === "string") {
           fixed = fixed.toFixed();
         } else if (encoding === "hex") {
-          if (fixed.constructor === BigNumber) {
+          if (BigNumber.isBigNumber(fixed)) {
             fixed = fixed.toString(16);
           }
           fixed = prefixHex(fixed);

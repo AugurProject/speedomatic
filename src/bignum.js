@@ -40,7 +40,7 @@ function bignum(n, encoding, isWrapped) {
           bn = new BigNumber(n, 10);
         }
     }
-    if (bn !== undefined && bn !== null && bn.constructor === BigNumber) {
+    if (bn !== undefined && bn !== null && BigNumber.isBigNumber(bn)) {
       if (isWrapped) bn = wrap(bn);
       if (encoding) {
         if (encoding === "number") {
@@ -48,7 +48,7 @@ function bignum(n, encoding, isWrapped) {
         } else if (encoding === "string") {
           bn = bn.toFixed();
         } else if (encoding === "hex") {
-          bn = prefixHex(bn.floor().toString(16));
+          bn = prefixHex(bn.integerValue(BigNumber.ROUND_FLOOR).toString(16));
         }
       }
     }

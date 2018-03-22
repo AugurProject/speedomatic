@@ -25,7 +25,7 @@
   },
   "homepage": "https://github.com/AugurProject/speedomatic#readme",
   "dependencies": {
-    "bignumber.js": "2.3.0",
+    "bignumber.js": "6.0.0",
     "ethereumjs-abi": "0.6.5"
   },
   "devDependencies": {
