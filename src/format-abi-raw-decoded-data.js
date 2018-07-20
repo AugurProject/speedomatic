@@ -7,7 +7,7 @@ var formatInt256 = require("./format-int256");
 
 function formatAbiRawDecodedData(inputType, decodedData) {
   if (inputType === "null") return null;
-  if (inputType.slice(-2) === "[]") {
+  if (inputType.slice(-1) === "]") {
     return decodedData.map(function (decodedElement) {
       return formatAbiRawDecodedData(inputType.slice(0, -2), decodedElement);
     });

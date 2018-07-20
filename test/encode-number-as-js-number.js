@@ -38,7 +38,7 @@ describe("encodeNumberAsJSNumber", function () {
     expected: 3.1415
   });
   test({
-    input: .3109513,
+    input: 0.3109513,
     expected: 0.3109513
   });
   test({

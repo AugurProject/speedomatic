@@ -34,7 +34,7 @@ describe("hex: hexadecimal conversion", function () {
     {value: -0, expected: "0x0"},
     {value: "-0", expected: "0x0"},
     {value: "-0x0", expected: "0x0"},
-    {value: '{"test": "test"}', expected: "0x7b2274657374223a202274657374227d"},
+    {value: "{\"test\": \"test\"}", expected: "0x7b2274657374223a202274657374227d"},
     {value: {test: "test"}, expected: "0x7b2274657374223a2274657374227d"},
     {value: "\ttabbity", expected: "0x0974616262697479"},
     {value: "myString", expected: "0x6d79537472696e67"},
